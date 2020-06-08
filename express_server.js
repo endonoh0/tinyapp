@@ -7,6 +7,17 @@ app.set('view engine', 'ejs');
 app.use(morgan('dev'));
 
 
+// url index page
+app.get('/urls', (req, res) => {
+    const templateVars = {
+        12345: "https://google.com"
+    }
+
+    res.render('urls_index', {
+        urls: templateVars
+    });
+});
+
 // login page
 app.get('/', (req, res) => {
     const name = 'John Doe';
