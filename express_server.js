@@ -6,17 +6,32 @@ const PORT = 8080;
 app.set('view engine', 'ejs');
 app.use(morgan('dev'));
 
+const urlDatabase = {
+    12345: "https://google.com"
+};
 
 // url index page
 app.get('/urls', (req, res) => {
-    const templateVars = {
-        12345: "https://google.com"
-    }
+    const templateVars = urlDatabase;
 
     res.render('urls_index', {
         urls: templateVars
     });
 });
+
+
+
+// show the specified url
+app.get("/urls/:shortURL", (req, res) => {
+    let templateVars = {
+        shortURL: req.params.shortURL,
+        longURL: urlDatabase[req.params.shortURL]
+    };
+
+    res.render("urls_show", templateVars);
+});
+
+
 
 // login page
 app.get('/', (req, res) => {
