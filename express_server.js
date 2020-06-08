@@ -7,7 +7,8 @@ app.set('view engine', 'ejs');
 app.use(morgan('dev'));
 
 const urlDatabase = {
-    12345: "https://google.com"
+    S15tx: "https://tsn.ca",
+    PsWtqZ: "https://google.ca"
 };
 
 // url index page
