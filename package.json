@@ -6,6 +6,7 @@
   "scripts": {
     "lint": "eslint src/js",
     "lint:ejs": "ejslint views/pages/login.ejs",
+    "start": "./node_modules/.bin/nodemon -L express_server.js",
     "test": "mocha"
   },
   "repository": {
@@ -30,7 +31,8 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "ejs-lint": "^1.1.0",
     "eslint": "^7.2.0",
-    "ejs-lint": "^1.1.0"
+    "nodemon": "^2.0.4"
   }
 }
