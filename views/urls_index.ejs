@@ -13,8 +13,10 @@
 
 <body>
     <%- include('./partials/_header') %>
+
     <main style="margin: 1em;">
         <h3>My URLs</h3>
+
         <table class="table">
             <thead>
                 <tr>
@@ -24,14 +26,20 @@
                     <th scope="col">Delete</th>
                 </tr>
             </thead>
+
             <tbody>
+                <!-- Display short and long url -->
                 <% for(let url in urls) { %>
                 <tr>
                     <td><a href="/u/<%= url %>"><%= url %></a></td>
                     <td><%= urls[url].longURL %></td>
+
+                    <!-- Edit the url -->
                     <td>
-                        <a class="btn btn-outline-primary" href="/urls/<%= url %>">Edit</a>
+                        <a href="/urls/<%= url %>" class="btn btn-outline-primary">Edit</a>
                     </td>
+
+                    <!-- Delete the url -->
                     <td>
                         <form action="/urls/<%= url %>/delete" method="POST">
                             <button class="btn btn-outline-danger">Delete</button>
@@ -39,6 +47,7 @@
                     </td>
                 </tr>
                 <% } %>
+
             </tbody>
         </table>
     </main>

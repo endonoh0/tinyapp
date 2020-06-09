@@ -16,14 +16,16 @@ const urlDatabase = {
     "9sm5xK": { longURL: "https://google.ca" }
 };
 
+app.get('urls.json', (req, res) => {
+    res.json(urlDatabase);
+})
+
 /**
  * Display a listing of the resource
  */
 app.get('/urls', (req, res) => {
-    const templateVars = urlDatabase;
-
     res.render('urls_index', {
-        urls: templateVars
+        urls: urlDatabase
     });
 });
 
@@ -51,7 +53,11 @@ app.get('/urls/new', (req, res) => {
  * Redirect to the specified resource.
  */
 app.get("/u/:shortURL", (req, res) => {
+    if(!urlDatabase[req.params.shortURL]) {
+        return res.status(404).send('Not Found');
+    }
     const longURL = urlDatabase[req.params.shortURL].longURL;
+
     res.redirect(longURL);
 });
 
