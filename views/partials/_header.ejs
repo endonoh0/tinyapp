@@ -12,14 +12,19 @@
             </div>
         </div>
         <!-- Login Form -->
-        <div>
-            <form method="POST" action="/login">
-                <input
-                    type="text"
-                    name="username"
-                >
-                <button type="submit">Submit</button>
+        <% if(username) { %>
+            <div class="mr-4">
+                <a>Logged in as: <%= username %></a>
+            </div>
+            <form method="POST" action="/logout">
+                <button class="btn btn-secondary">Logout</button>
             </form>
-        </div>
+        <% } else { %>
+            <form method="POST" action="/login">
+                <input class="mr-3" type="text" name="username" placeholder="username">
+                <button class="btn btn-secondary">Login</button>
+            </form>
+        <% } %>
+>>>>>>> feature/cookies
     </nav>
 </header>
