@@ -1,8 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-
-const { generateRandomString } = require('./helpers.js');
 const app = express();
 const PORT = 8080;
 
@@ -10,13 +8,17 @@ app.set('view engine', 'ejs');
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({exended: true}));
 
+const { generateRandomString } = require('./helpers.js');
+
 const urlDatabase = {
     S15tx: { longURL: "https://tsn.ca" },
     b2xVn2: { longURL: "http://www.lighthouselabs.ca" },
     PsWtqZ: { longURL: "https://google.ca" }
 };
 
-// show url index page
+/**
+ * Display a listing of the resource
+ */
 app.get('/urls', (req, res) => {
     const templateVars = urlDatabase;
 
@@ -25,30 +27,37 @@ app.get('/urls', (req, res) => {
     });
 });
 
-// create the new url
+/**
+ * Store a newly created resource in database.
+ */
 app.post("/urls", (req, res) => {
     const shortURL = generateRandomString();
-    // generate random url
+
     urlDatabase[shortURL] = {
         longURL: req.body.longURL
     };
 
-    console.log(req.body);  // Log the POST request body to the console
     res.redirect(`/urls/${shortURL}`);
 });
 
-// show a view to create a new url
+/**
+ * Show the form for creating a new resource.
+ */
 app.get('/urls/new', (req, res) => {
     res.render('urls_new');
 });
 
-// redirect to long URL if accessing short URL
+/**
+ * Redirect to the specified resource.
+ */
 app.get("/u/:shortURL", (req, res) => {
     const longURL = urlDatabase[req.params.shortURL].longURL;
     res.redirect(longURL);
 });
 
-// show the specified url
+/**
+ * Display the specifed resource.
+ */
 app.get("/urls/:shortURL", (req, res) => {
     let templateVars = {
         shortURL: req.params.shortURL,
