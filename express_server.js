@@ -77,7 +77,6 @@ app.get('urls.json', (req, res) => {
 app.get('/urls', (req, res) => {
     const username = req.cookies["username"];
 
-    console.log(req.cookies);
     res.render('urls_index', {
         urls: urlDatabase,
         username
