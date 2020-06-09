@@ -11,11 +11,12 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({exended: true}));
 
 const urlDatabase = {
-    S15tx: "https://tsn.ca",
-    PsWtqZ: "https://google.ca"
+    S15tx: { longURL: "https://tsn.ca" },
+    b2xVn2: { longURL: "http://www.lighthouselabs.ca" },
+    PsWtqZ: { longURL: "https://google.ca" }
 };
 
-// url index page
+// show url index page
 app.get('/urls', (req, res) => {
     const templateVars = urlDatabase;
 
@@ -26,13 +27,25 @@ app.get('/urls', (req, res) => {
 
 // create the new url
 app.post("/urls", (req, res) => {
+    const shortURL = generateRandomString();
+    // generate random url
+    urlDatabase[shortURL] = {
+        longURL: req.body.longURL
+    };
+
     console.log(req.body);  // Log the POST request body to the console
-    res.send("Ok");         // Respond with 'Ok' (we will replace this)
+    res.redirect(`/urls/${shortURL}`);
 });
 
 // show a view to create a new url
 app.get('/urls/new', (req, res) => {
     res.render('urls_new');
+});
+
+// redirect to long URL if accessing short URL
+app.get("/u/:shortURL", (req, res) => {
+    const longURL = urlDatabase[req.params.shortURL].longURL;
+    res.redirect(longURL);
 });
 
 // show the specified url
