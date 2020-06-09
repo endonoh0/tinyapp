@@ -20,7 +20,10 @@ app.get('/urls', (req, res) => {
     });
 });
 
-
+// create a new url resource
+app.get('/urls/new', (req, res) => {
+    res.render('urls_new');
+});
 
 // show the specified url
 app.get("/urls/:shortURL", (req, res) => {
@@ -31,7 +34,6 @@ app.get("/urls/:shortURL", (req, res) => {
 
     res.render("urls_show", templateVars);
 });
-
 
 
 // login page
