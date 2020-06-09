@@ -11,6 +11,29 @@ app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ exended: true }));
 
+// login page
+app.get('/', (req, res) => {
+    const name = 'John Doe';
+
+    res.render('pages/login', {
+        name: name
+    });
+});
+
+app.post('/login', (req, res) => {
+    res.cookie('username', req.body.username);
+    res.redirect('/urls');
+})
+
+// register page
+app.get('/register', (req, res) => {
+    res.render('pages/register');
+})
+
+app.listen(PORT, () => {
+    console.log(`Example app listening on port ${PORT}!`);
+});
+
 const urlDatabase = {
     "S15tx8": { longURL: "https://tsn.ca" },
     "b2xVn2": { longURL: "http://www.lighthouselabs.ca" },
@@ -95,22 +118,4 @@ app.post('/urls/:shortURL/update', (req, res) => {
 
     urlDatabase[shortURL].longURL = req.body.longURL;
     res.redirect('/urls');
-});
-
-// login page
-app.get('/', (req, res) => {
-    const name = 'John Doe';
-
-    res.render('pages/login', {
-        name: name
-    });
-});
-
-// register page
-app.get('/register', (req, res) => {
-    res.render('pages/register');
-})
-
-app.listen(PORT, () => {
-    console.log(`Example app listening on port ${PORT}!`);
 });
