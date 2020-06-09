@@ -56,7 +56,7 @@ app.get("/u/:shortURL", (req, res) => {
 });
 
 /**
- * Display the specifed resource.
+ * Display the specified resource.
  */
 app.get("/urls/:shortURL", (req, res) => {
     let templateVars = {
@@ -68,7 +68,7 @@ app.get("/urls/:shortURL", (req, res) => {
 });
 
 /**
- * Delete the specifed resource.
+ * Delete the specified resource.
  */
 app.post('/urls/:shortURL/delete', (req, res) => {
     delete urlDatabase[req.params.shortURL];
