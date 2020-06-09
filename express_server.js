@@ -75,6 +75,14 @@ app.post('/urls/:shortURL/delete', (req, res) => {
     res.redirect('/urls');
 });
 
+/**
+ * Update the specified resource.
+ */
+app.post('/urls/:shortURL/update', (req, res) => {
+    urlDatabase[req.params.shortURL].longURL = req.body.longURL;
+    res.redirect('/urls');
+});
+
 // login page
 app.get('/', (req, res) => {
     const name = 'John Doe';
