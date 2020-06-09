@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
+const { generateRandomString } = require('./helpers.js');
 const app = express();
 const PORT = 8080;
 
@@ -23,7 +24,13 @@ app.get('/urls', (req, res) => {
     });
 });
 
-// create a new url resource
+// create the new url
+app.post("/urls", (req, res) => {
+    console.log(req.body);  // Log the POST request body to the console
+    res.send("Ok");         // Respond with 'Ok' (we will replace this)
+});
+
+// show a view to create a new url
 app.get('/urls/new', (req, res) => {
     res.render('urls_new');
 });
