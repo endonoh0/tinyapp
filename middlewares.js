@@ -15,6 +15,5 @@ module.exports = [
     },
     function (req, res, next) {
         app.use(cookieParser());
-        next();
     }
 ];

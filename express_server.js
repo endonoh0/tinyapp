@@ -1,10 +1,15 @@
-const { generateRandomString } = require('./helpers.js');
+const { generateRandomString } = require('./helpers');
 const express = require('express');
 const app = express();
 const PORT = 8080;
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 app.set('view engine', 'ejs');
-app.use(require('./middlewares.js'));
+app.use(morgan('dev'));
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ exended: true }));
 
 const urlDatabase = {
     "S15tx8": { longURL: "https://tsn.ca" },
@@ -49,10 +54,12 @@ app.get('/urls/new', (req, res) => {
  * Redirect to the specified resource.
  */
 app.get("/u/:shortURL", (req, res) => {
-    if(!urlDatabase[req.params.shortURL]) {
+    const shortURL = req.params.shortURL;
+
+    if(!urlDatabase[shortURL]) {
         return res.status(404).send('Not Found');
     }
-    const longURL = urlDatabase[req.params.shortURL].longURL;
+    const longURL = urlDatabase[shortURL].longURL;
 
     res.redirect(longURL);
 });
@@ -61,9 +68,11 @@ app.get("/u/:shortURL", (req, res) => {
  * Display the specified resource.
  */
 app.get("/urls/:shortURL", (req, res) => {
+    const shortURL = req.params.shortURL;
+
     let templateVars = {
-        shortURL: req.params.shortURL,
-        longURL: urlDatabase[req.params.shortURL]
+        shortURL: shortURL,
+        longURL: urlDatabase[shortURL]
     };
 
     res.render("urls_show", templateVars);
@@ -73,7 +82,8 @@ app.get("/urls/:shortURL", (req, res) => {
  * Delete the specified resource.
  */
 app.post('/urls/:shortURL/delete', (req, res) => {
-    delete urlDatabase[req.params.shortURL];
+    const shortURL = req.params.shortURL
+    delete urlDatabase[shortURL];
     res.redirect('/urls');
 });
 
@@ -81,7 +91,9 @@ app.post('/urls/:shortURL/delete', (req, res) => {
  * Update the specified resource.
  */
 app.post('/urls/:shortURL/update', (req, res) => {
-    urlDatabase[req.params.shortURL].longURL = req.body.longURL;
+    const shortURL = req.params.shortURL;
+
+    urlDatabase[shortURL].longURL = req.body.longURL;
     res.redirect('/urls');
 });
 
