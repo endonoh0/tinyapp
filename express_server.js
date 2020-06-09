@@ -11,9 +11,9 @@ app.use(bodyParser.urlencoded({exended: true}));
 const { generateRandomString } = require('./helpers.js');
 
 const urlDatabase = {
-    S15tx: { longURL: "https://tsn.ca" },
-    b2xVn2: { longURL: "http://www.lighthouselabs.ca" },
-    PsWtqZ: { longURL: "https://google.ca" }
+    "S15tx8": { longURL: "https://tsn.ca" },
+    "b2xVn2": { longURL: "http://www.lighthouselabs.ca" },
+    "9sm5xK": { longURL: "https://google.ca" }
 };
 
 /**
@@ -67,6 +67,13 @@ app.get("/urls/:shortURL", (req, res) => {
     res.render("urls_show", templateVars);
 });
 
+/**
+ * Delete the specifed resource.
+ */
+app.post('/urls/:shortURL/delete', (req, res) => {
+    delete urlDatabase[req.params.shortURL];
+    res.redirect('/urls');
+});
 
 // login page
 app.get('/', (req, res) => {
