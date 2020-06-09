@@ -1,10 +1,13 @@
 const express = require('express');
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
+
 const app = express();
 const PORT = 8080;
 
 app.set('view engine', 'ejs');
 app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({exended: true}));
 
 const urlDatabase = {
     S15tx: "https://tsn.ca",
