@@ -16,24 +16,28 @@
     <div class="card text-center">
         <div class="card-header"></div>
         <div class="card-body">
-            <!-- Display long and short urls -->
-            <h5 class="card-title">TinyURL for: <%= longURL.longURL %></h5>
-            <p class="card-text">Short URL: <a href="/u/<%= shortURL %>"><%= shortURL %></a></p>
+            <% if(user) { %>
+                <!-- Display long and short urls -->
+                <h5 class="card-title">TinyURL for: <%= longURL.longURL %></h5>
+                <p class="card-text">Short URL: <a href="/u/<%= shortURL %>"><%= shortURL %></a></p>
 
-            <div>
-                <form class="form-inline" method="POST" action="/urls/<%= shortURL %>/update">
-                    <h1 class="mr-3">Edit</h1>
-                    <div class="form-group mb-2">
-                        <input
-                            type="text"
-                            name="longURL"
-                            placeholder="<%= longURL.longURL %>"
-                        >
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
+                <div>
+                    <form class="form-inline" method="POST" action="/urls/<%= shortURL %>/update">
+                        <h1 class="mr-3">Edit</h1>
+                        <div class="form-group mb-2">
+                            <input
+                                type="text"
+                                name="longURL"
+                                placeholder="<%= longURL.longURL %>"
+                            >
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+                <% } else { %>
+                    <div id='status' class='invisible'><%= errorMessage %></div>
+                <% } %>
             </div>
-        </div>
     </div>
 
     <!-- Bootstrap JS -->
@@ -46,6 +50,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+    <script>
+        if ($('div#status').text() != '') {
+            alert($('div#status').text()); }
+    </script>
 </body>
 
 </html>

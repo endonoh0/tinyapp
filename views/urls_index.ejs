@@ -12,7 +12,9 @@
 </head>
 
 <body>
-    <%- include('./partials/_header') %>
+    <header>
+        <%- include('./partials/_header') %>
+    </header>
 
     <main style="margin: 1em;">
         <h3>My URLs</h3>
@@ -28,26 +30,29 @@
             </thead>
 
             <tbody>
-                <!-- Display short and long url -->
-                <% for(let url in urls) { %>
-                <tr>
-                    <td><a href="/u/<%= url %>"><%= url %></a></td>
-                    <td><%= urls[url].longURL %></td>
+                <% if(user) { %>
+                    <!-- Display short and long url -->
+                    <% for(let url in urls) { %>
+                    <tr>
+                        <td><a href="/u/<%= url %>"><%= url %></a></td>
+                        <td><%= urls[url].longURL %></td>
 
-                    <!-- Edit the url -->
-                    <td>
-                        <a href="/urls/<%= url %>" class="btn btn-outline-primary">Edit</a>
-                    </td>
+                        <!-- Edit the url -->
+                        <td>
+                            <a href="/urls/<%= url %>" class="btn btn-outline-primary">Edit</a>
+                        </td>
 
-                    <!-- Delete the url -->
-                    <td>
-                        <form action="/urls/<%= url %>/delete" method="POST">
-                            <button class="btn btn-outline-danger">Delete</button>
-                        </form>
-                    </td>
-                </tr>
+                        <!-- Delete the url -->
+                        <td>
+                            <form action="/urls/<%= url %>/delete" method="POST">
+                                <button class="btn btn-outline-danger">Delete</button>
+                            </form>
+                        </td>
+                    <% } %>
+                    </tr>
+                <% } else { %>
+                    <div id='status' class='invisible'><%= errorMessage %></div>
                 <% } %>
-
             </tbody>
         </table>
     </main>
@@ -61,6 +66,11 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+    <script>
+        if ($('div#status').text() != '') {
+            alert($('div#status').text());
+        }
+    </script>
 </body>
 
 </html>

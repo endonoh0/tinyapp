@@ -11,38 +11,29 @@ const generateRandomString = () => {
     return result;
 };
 
-const users = {
-    "userRandomID": {
-        id: "userRandomID",
-        email: "user@example.com",
-        password: "purple-monkey-dinosaur"
-    },
-    "user2RandomID": {
-        id: "user2RandomID",
-        email: "user2@example.com",
-        password: "dishwasher-funk"
+const urlsForUsers = (id, database) => {
+    let userDatabase= {};
+    for (const key in database) {
+        if (database[key].userID === id) {
+            userDatabase[key] = {longURL:database[key].longURL};
+        }
     }
-}
-// const verifyUser = (val, users) => {
-//     for (const user of Object.values(users)) {
-//         if (user.email === email) {
-//             return user.email;
-//         }
-//     }
-//     return false
-// };
-const verifyUser = (email, users) => {
+    return userDatabase;
+};
+
+const verifyUser = (val, users) => {
     for (const id of Object.keys(users)) {
-        if (users[id].email === email) {
+        if (users[id].email === val) {
             return users[id];
-        };
+        } else if (id === val) {
+            return users[id];
+        }
     };
     return false;
 };
 
-console.log(verifyUser("user2@example.com", users));
-
 module.exports = {
     generateRandomString,
-    verifyUser
+    verifyUser,
+    urlsForUsers
 }

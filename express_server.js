@@ -1,35 +1,35 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = 8080;
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
 
 app.set('view engine', 'ejs');
 app.use(morgan('dev'));
-app.use(cookieParser());
 app.use(bodyParser.urlencoded({ exended: true }));
+app.use(cookieParser());
 
-const { generateRandomString, verifyUser} = require('./helpers');
+const { generateRandomString, verifyUser, urlsForUsers} = require('./helpers');
 
 const urlDatabase = {
-    "S15tx8": { longURL: "https://tsn.ca", userID: "aJ48lW" },
-    "b2xVn2": { longURL: "http://www.lighthouselabs.ca", userID: "aJ48lW" },
-    "9sm5xK": { longURL: "https://google.ca", userID: "aJ48lW" }
+    "asdf2d": { longURL: "https://tsn.ca", userID: "S15tx8" },
+    "b2xVn2": { longURL: "http://www.lighthouselabs.ca", userID: "S15tx8" },
+    "9sm5xK": { longURL: "https://google.ca", userID: "9sm5xK" }
 };
 
 const users = {
-    "userRandomID": {
-        id: "userRandomID",
+    "S15tx8": {
+        id: "S15tx8",
         email: "user@example.com",
-        password: "purple-monkey-dinosaur"
+        password: "password"
     },
-    "user2RandomID": {
-        id: "user2RandomID",
+    "9sm5xK": {
+        id: "9sm5xK",
         email: "user2@example.com",
-        password: "dishwasher-funk"
+        password: "password"
     }
-}
+};
 
 /**
  * Display the home page.
@@ -57,17 +57,18 @@ app.post('/register', (req, res) => {
     if (email === '' || password === '') {
         res.status(400).send('Please fill in email or password');
     } else if (user.email === email) {
-        res.status(400).send('This email already exists.');
+        res.status(400).send('This email already exists');
     } else {
-        const userID = generateRandomString;
-        users[userID] = {
+        const userID = generateRandomString();
+        const newUser = {
             id: userID,
             email: email,
-            password: req.body.password // hash
+            password: password
         };
+        users[userID] = newUser;
         res.cookie('user_id', userID);
         res.redirect('/urls');
-    }
+    };
 });
 
 /**
@@ -86,13 +87,13 @@ app.post('/login', (req, res) => {
     const user = verifyUser(email, users);
 
     if (!user) {
-        res.status(403).send('This email does not exist');
+        res.status(403).send('Incorrect email or password.');
     } else if (user.password !== password) {
-        res.status(403).send('Incorrect password');
+        res.status(403).send('Incorrect email or password.');
     } else {
         res.cookie('user_id', user.id);
         res.redirect('/urls');
-    }
+    };
 });
 
 /**
@@ -100,20 +101,26 @@ app.post('/login', (req, res) => {
  */
 app.post('/logout', (req, res) => {
     res.clearCookie('user_id');
-    res.redirect('/urls');
+    res.redirect('/login');
 });
 
 /**
  * Display a listing of the resource
  */
 app.get('/urls', (req, res) => {
-    const user = req.cookies["user_id"];
+    const id = req.cookies["user_id"];
 
-    console.log(req.cookies);
-    res.render('urls_index', {
-        urls: urlDatabase,
-        user: users[user]
-    });
+    if(!id) {
+        res.render('urls_index', {
+            user: null,
+            errorMessage: 'Please sign in or register to view this page.'
+        });
+    } else {
+        res.render('urls_index', {
+            user: verifyUser(id, users),
+            urls: urlsForUsers(id, urlDatabase),
+        });
+    };
 });
 
 /**
@@ -123,9 +130,9 @@ app.post("/urls", (req, res) => {
     const shortURL = generateRandomString();
 
     urlDatabase[shortURL] = {
-        longURL: req.body.longURL
+        longURL: req.body.longURL,
+        userID: req.cookies["user_id"]
     };
-
     res.redirect(`/urls/${shortURL}`);
 });
 
@@ -134,13 +141,13 @@ app.post("/urls", (req, res) => {
  */
 app.get('/urls/new', (req, res) => {
     const id = req.cookies["user_id"];
-    const user = users[id];
 
     if (!id) {
         res.redirect('/login');
     } else {
+        const user = users[id];
         res.render('urls_new', {user});
-    }
+    };
 });
 
 /**
@@ -149,11 +156,11 @@ app.get('/urls/new', (req, res) => {
 app.get("/u/:shortURL", (req, res) => {
     const shortURL = req.params.shortURL;
 
-    if(!urlDatabase[shortURL]) {
+    if (!urlDatabase[shortURL]) {
         return res.status(404).send('Not Found');
     }
-    const longURL = urlDatabase[shortURL].longURL;
 
+    const longURL = urlDatabase[shortURL].longURL;
     res.redirect(longURL);
 });
 
@@ -162,22 +169,28 @@ app.get("/u/:shortURL", (req, res) => {
  */
 app.get("/urls/:shortURL", (req, res) => {
     const shortURL = req.params.shortURL;
-    const user = req.cookies["user_id"];
+    const id = req.cookies["user_id"];
 
-    let templateVars = {
-        shortURL: shortURL,
-        longURL: urlDatabase[shortURL],
-        user: users[user]
-    };
-
-    res.render("urls_show", templateVars);
+    if (!id) {
+        return res.render('urls_show', {user: null, errorMessage: 'Please sign in or register to view this page.'});
+    } else if (!urlDatabase[shortURL]) {
+        return res.status(404).send('Not Found');
+    } else if (urlDatabase[shortURL].userID !== id) {
+        return res.render("urls_show", {user: null, errorMessage: 'You do not have permission to view this page.'});
+     } else {
+        res.render("urls_show", {
+            shortURL: shortURL,
+            longURL: urlDatabase[shortURL],
+            user: users[id]
+        });
+     };
 });
 
 /**
  * Delete the specified resource.
  */
 app.post('/urls/:shortURL/delete', (req, res) => {
-    const shortURL = req.params.shortURL
+    const shortURL = req.params.shortURL;
     delete urlDatabase[shortURL];
     res.redirect('/urls');
 });
@@ -187,7 +200,6 @@ app.post('/urls/:shortURL/delete', (req, res) => {
  */
 app.post('/urls/:shortURL/update', (req, res) => {
     const shortURL = req.params.shortURL;
-
     urlDatabase[shortURL].longURL = req.body.longURL;
     res.redirect('/urls');
 });
