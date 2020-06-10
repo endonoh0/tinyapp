@@ -18,20 +18,20 @@ app.use(cookieSession({
 }));
 
 const urlDatabase = {
-    "asdf2d": { longURL: "https://tsn.ca", userID: "S15tx8" },
-    "b2xVn2": { longURL: "http://www.lighthouselabs.ca", userID: "S15tx8" },
-    "9sm5xK": { longURL: "https://google.ca", userID: "9sm5xK" }
+    b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
+    i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" }
 };
+
 const users = {
-    "S15tx8": {
-        id: "S15tx8",
+    "userRandomID": {
+        id: "userRandomID",
         email: "user@example.com",
-        password: "password"
+        password: "purple-monkey-dinosaur"
     },
-    "9sm5xK": {
-        id: "9sm5xK",
+    "user2RandomID": {
+        id: "user2RandomID",
         email: "user2@example.com",
-        password: "password"
+        password: "dishwasher-funk"
     }
 };
 
