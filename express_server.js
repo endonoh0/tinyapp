@@ -3,13 +3,17 @@ const app = express();
 const PORT = 8080;
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+var cookieSession = require('cookie-session')
 const bcrypt = require('bcrypt');
+const { generateRandomString, verifyUser, urlsForUsers} = require('./helpers');
 
 app.set('view engine', 'ejs');
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ exended: true }));
-
-const { generateRandomString, verifyUser, urlsForUsers} = require('./helpers');
+app.use(cookieSession({
+    name: 'user_id',
+    keys: ['iloveMrRobot11']
+}));
 
 const urlDatabase = {
     "asdf2d": { longURL: "https://tsn.ca", userID: "S15tx8" },
@@ -33,13 +37,19 @@ const users = {
  * Display the home page.
  */
 app.get('/', (req, res) => {
-    res.redirect('urls');
+    if (req.session.user_id) {
+        res.redirect('/urls');
+    };
+    res.redirect('/login');
 });
 
 /**
  * Display the form to register.
  */
 app.get('/register', (req, res) => {
+    if (req.session.user_id) {
+        res.redirect('/urls')
+    };
     res.render('pages/register');
 });
 
@@ -51,7 +61,6 @@ app.post('/register', (req, res) => {
     const password = req.body.password;
     const user = verifyUser(email, users);
 
-    // validation
     if (email === '' || password === '') {
         return res.status(400).send('Please fill in email or password');
     } else if (user.email === email) {
@@ -65,7 +74,7 @@ app.post('/register', (req, res) => {
             password: hashedPassword
         };
         users[userID] = newUser;
-        res.cookie('user_id', userID);
+        req.session.user_id = userID;
         res.redirect('/urls');
     };
 });
@@ -74,6 +83,9 @@ app.post('/register', (req, res) => {
  * Display the form to login.
  */
 app.get('/login', (req, res) => {
+    if (req.session.user_id) {
+        res.redirect('/urls');
+    };
     res.render('pages/login');
 });
 
@@ -90,7 +102,7 @@ app.post('/login', (req, res) => {
     } else if (!bcrypt.compareSync(password, user.password)) {
         return res.status(403).send('Incorrect email or password.');
     } else {
-        res.cookie('user_id', user.id);
+        req.session.user_id = user.id;
         res.redirect('/urls');
     };
 });
@@ -99,7 +111,7 @@ app.post('/login', (req, res) => {
  * Logout the user.
  */
 app.post('/logout', (req, res) => {
-    res.clearCookie('user_id');
+    req.session = null;
     res.redirect('/login');
 });
 
@@ -107,7 +119,7 @@ app.post('/logout', (req, res) => {
  * Display a listing of the resource
  */
 app.get('/urls', (req, res) => {
-    const id = req.cookies["user_id"];
+    const id = req.session.user_id;
 
     if(!id) {
         res.render('urls_index', {
@@ -130,7 +142,7 @@ app.post("/urls", (req, res) => {
 
     urlDatabase[shortURL] = {
         longURL: req.body.longURL,
-        userID: req.cookies["user_id"]
+        userID: req.session.user_id
     };
     res.redirect(`/urls/${shortURL}`);
 });
@@ -139,12 +151,11 @@ app.post("/urls", (req, res) => {
  * Show the form to create a new resource.
  */
 app.get('/urls/new', (req, res) => {
-    const id = req.cookies["user_id"];
+    const id = req.session.user_id;
 
     if (!id) {
         return res.status(403).send('Please sign in or register to view this page.');
-    }
-
+    };
     const user = users[id];
     res.render('urls_new', {user});
 });
@@ -157,7 +168,7 @@ app.get("/u/:shortURL", (req, res) => {
 
     if (!urlDatabase[shortURL]) {
         return res.status(404).send('Page not found');
-    }
+    };
 
     const longURL = urlDatabase[shortURL].longURL;
     res.redirect(longURL);
@@ -168,7 +179,7 @@ app.get("/u/:shortURL", (req, res) => {
  */
 app.get("/urls/:shortURL", (req, res) => {
     const shortURL = req.params.shortURL;
-    const id = req.cookies["user_id"];
+    const id = req.session.user_id;
 
     if (!id) {
         return res.render('urls_show', {user: null, errorMessage: 'Please sign in or register to view this page.'});
@@ -190,11 +201,11 @@ app.get("/urls/:shortURL", (req, res) => {
  */
 app.post('/urls/:shortURL/update', (req, res) => {
     const shortURL = req.params.shortURL;
-    const id = req.cookies["user_id"];
+    const id = req.session.user_id;
 
     if (!id || urlDatabase[shortURL].userID !== id) {
         res.status(403).send('You do not have permission.')
-    }
+    };
 
     urlDatabase[shortURL].longURL = req.body.longURL;
     res.redirect('/urls');
@@ -205,11 +216,11 @@ app.post('/urls/:shortURL/update', (req, res) => {
  */
 app.post('/urls/:shortURL/delete', (req, res) => {
     const shortURL = req.params.shortURL;
-    const id = req.cookies["user_id"];
+    const id = req.session.user_id;
 
     if (!id || urlDatabase[shortURL].userID !== id) {
         res.status(403).send('You do not have permission.')
-    }
+    };
 
     delete urlDatabase[shortURL];
     res.redirect('/urls');
