@@ -10,7 +10,7 @@ app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ exended: true }));
 
-const { generateRandomString, verifyUserEmail } = require('./helpers');
+const { generateRandomString, verifyUser} = require('./helpers');
 
 const urlDatabase = {
     "S15tx8": { longURL: "https://tsn.ca" },
@@ -34,9 +34,9 @@ const users = {
 /**
  * Display the home page.
  */
-// app.get('/', (req, res) => {
-//     res.redirect('');
-// });
+app.get('/', (req, res) => {
+    res.redirect('urls');
+});
 
 /**
  * Display the form to register.
@@ -51,11 +51,12 @@ app.get('/register', (req, res) => {
 app.post('/register', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
+    const user = verifyUser(email, users);
 
     // validation
     if (email === '' || password === '') {
         res.status(400).send('Please fill in email or password');
-    } else if (verifyUserEmail(email, users)) {
+    } else if (user.email === email) {
         res.status(400).send('This email already exists.');
     } else {
         const userID = generateRandomString;
@@ -69,16 +70,29 @@ app.post('/register', (req, res) => {
     }
 });
 
-
+/**
+ * Display the form to login.
+ */
 app.get('/login', (req, res) => {
     res.render('pages/login');
 });
 
 /**
- * Store a created username in session.
+ * Store a created user in session.
  */
 app.post('/login', (req, res) => {
-    res.redirect('/urls');
+    const email = req.body.email;
+    const password = req.body.password;
+    const user = verifyUser(email, users);
+
+    if (!user) {
+        res.status(403).send('This email does not exist');
+    } else if (user.password !== password) {
+        res.status(403).send('Incorrect password');
+    } else {
+        res.cookie('user_id', user.id);
+        res.redirect('/urls');
+    }
 });
 
 /**

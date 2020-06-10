@@ -23,18 +23,26 @@ const users = {
         password: "dishwasher-funk"
     }
 }
-
-const verifyUserEmail = (email, users) => {
-    for (const user of Object.values(users)) {
-        if (user.email === email) {
-            return true;
-        }
-    }
-    return false
+// const verifyUser = (val, users) => {
+//     for (const user of Object.values(users)) {
+//         if (user.email === email) {
+//             return user.email;
+//         }
+//     }
+//     return false
+// };
+const verifyUser = (email, users) => {
+    for (const id of Object.keys(users)) {
+        if (users[id].email === email) {
+            return users[id];
+        };
+    };
+    return false;
 };
 
+console.log(verifyUser("user2@example.com", users));
 
 module.exports = {
     generateRandomString,
-    verifyUserEmail
+    verifyUser
 }
