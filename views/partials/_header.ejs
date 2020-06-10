@@ -20,10 +20,10 @@
                 <button class="btn btn-secondary">Logout</button>
             </form>
         <% } else { %>
-            <form method="POST" action="/login">
-                <input class="mr-3" type="text" name="username" placeholder="username">
-                <button class="btn btn-secondary">Login</button>
-            </form>
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="/login">Login</a>
+                <a class="nav-item nav-link" href="/register">register</a>
+            </div>
         <% } %>
     </nav>
 </header>

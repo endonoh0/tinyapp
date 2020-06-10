@@ -8,20 +8,19 @@
 <body class="container">
 
     <header>
-        <%- include('../partials/_header') %>
     </header>
 
     <main>
-        <h2>Variables</h2>
-
-        <p><%= name %></p>
-
-        <div class="jumbotron">
-            <h1>This is great</h1>
-            <p>Welcome to templating using EJS</p>
+    <h1>Login</h1>
+    <form method="POST" action="/login">
+        <h2>Email</h2>
+        <input class="mr-3" type="text" name="email" placeholder="Email">
+        <h2>Password</h2>
+        <input type="password" name="password" placeholder="Password">
+        <div>
+            <button class="btn btn-secondary" type="submit" class="btn btn-primary">Login</button>
         </div>
-    </main>
-
+    </form>
     <footer>
         <%- include('../partials/_footer') %>
     </footer>

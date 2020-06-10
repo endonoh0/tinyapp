@@ -34,12 +34,9 @@ const users = {
 /**
  * Display the home page.
  */
-app.get('/', (req, res) => {
-    const name = 'John Doe';
-    res.render('pages/login', {
-        name: name
-    });
-});
+// app.get('/', (req, res) => {
+//     res.redirect('');
+// });
 
 /**
  * Display the form to register.
@@ -58,19 +55,24 @@ app.post('/register', (req, res) => {
     // validation
     if (email === '' || password === '') {
         res.status(400).send('Please fill in email or password');
-    } else if (!verifyUserEmail(email, users)) {
+    } else if (verifyUserEmail(email, users)) {
         res.status(400).send('This email already exists.');
+    } else {
+        const userID = generateRandomString;
+        users[userID] = {
+            id: userID,
+            email: email,
+            password: req.body.password // hash
+        };
+        res.cookie('user_id', userID);
+        res.redirect('/urls');
     }
-
-    users[userID] = {
-        id: generateRandomString(),
-        email: email,
-        password: req.body.password // hash
-    };
-    res.cookie('user_id', userID);
-    res.redirect('/urls');
 });
 
+
+app.get('/login', (req, res) => {
+    res.render('pages/login');
+});
 
 /**
  * Store a created username in session.
