@@ -2,14 +2,12 @@ const express = require('express');
 const app = express();
 const PORT = 8080;
 const morgan = require('morgan');
-const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 
 app.set('view engine', 'ejs');
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ exended: true }));
-app.use(cookieParser());
 
 const { generateRandomString, verifyUser, urlsForUsers} = require('./helpers');
 
