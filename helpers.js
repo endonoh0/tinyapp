@@ -11,22 +11,23 @@ const generateRandomString = () => {
     return result;
 };
 
-const urlsForUsers = (id, database) => {
+const urlsForUsers = (id, urlDatabase) => {
     let userDatabase= {};
-    for (const key in database) {
-        if (database[key].userID === id) {
-            userDatabase[key] = {longURL:database[key].longURL};
+    for (const key in urlDatabase) {
+        if (urlDatabase[key].userID === id) {
+            userDatabase[key] = {longURL:urlDatabase[key].longURL};
         }
-    }
+    };
     return userDatabase;
 };
 
-const verifyUser = (val, users) => {
-    for (const id of Object.keys(users)) {
-        if (users[id].email === val) {
-            return users[id];
-        } else if (id === val) {
-            return users[id];
+const verifyUser = (val, usersDatabase) => {
+    for (const id of Object.keys(usersDatabase)) {
+        if (usersDatabase[id].email === val ) {
+            return usersDatabase[id];
+        }
+        if (id === val) {
+            return usersDatabase[id];
         }
     };
     return false;
