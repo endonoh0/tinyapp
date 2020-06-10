@@ -13,9 +13,9 @@ app.use(bodyParser.urlencoded({ exended: true }));
 const { generateRandomString, verifyUser} = require('./helpers');
 
 const urlDatabase = {
-    "S15tx8": { longURL: "https://tsn.ca" },
-    "b2xVn2": { longURL: "http://www.lighthouselabs.ca" },
-    "9sm5xK": { longURL: "https://google.ca" }
+    "S15tx8": { longURL: "https://tsn.ca", userID: "aJ48lW" },
+    "b2xVn2": { longURL: "http://www.lighthouselabs.ca", userID: "aJ48lW" },
+    "9sm5xK": { longURL: "https://google.ca", userID: "aJ48lW" }
 };
 
 const users = {
@@ -133,11 +133,14 @@ app.post("/urls", (req, res) => {
  * Show the form to create a new resource.
  */
 app.get('/urls/new', (req, res) => {
-
     const id = req.cookies["user_id"];
     const user = users[id];
 
-    res.render('urls_new', {user});
+    if (!id) {
+        res.redirect('/login');
+    } else {
+        res.render('urls_new', {user});
+    }
 });
 
 /**
