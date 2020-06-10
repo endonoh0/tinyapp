@@ -1,4 +1,3 @@
-const { generateRandomString } = require('./helpers');
 const express = require('express');
 const app = express();
 const PORT = 8080;
@@ -11,45 +10,72 @@ app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ exended: true }));
 
+const { generateRandomString, verifyUserEmail } = require('./helpers');
+
 const urlDatabase = {
     "S15tx8": { longURL: "https://tsn.ca" },
     "b2xVn2": { longURL: "http://www.lighthouselabs.ca" },
     "9sm5xK": { longURL: "https://google.ca" }
 };
 
-// login page
+const users = {
+    "userRandomID": {
+        id: "userRandomID",
+        email: "user@example.com",
+        password: "purple-monkey-dinosaur"
+    },
+    "user2RandomID": {
+        id: "user2RandomID",
+        email: "user2@example.com",
+        password: "dishwasher-funk"
+    }
+}
+
+/**
+ * Display the home page.
+ */
 app.get('/', (req, res) => {
     const name = 'John Doe';
-    res.render('pages/login', {
-        name: name
-    });
-});
-
-app.post('/login', (req, res) => {
-    res.cookie('username', req.body.username);
-    res.redirect('/urls');
-})
-
-// register page
-app.get('/register', (req, res) => {
-    res.render('pages/register');
-})
-
-
-// login page
-app.get('/', (req, res) => {
-    const name = 'John Doe';
-
     res.render('pages/login', {
         name: name
     });
 });
 
 /**
- * Store a newly created username in session.
+ * Display the form to register.
+ */
+app.get('/register', (req, res) => {
+    res.render('pages/register');
+});
+
+/**
+ * Register a new user.
+ */
+app.post('/register', (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+
+    // validation
+    if (email === '' || password === '') {
+        res.status(400).send('Please fill in email or password');
+    } else if (!verifyUserEmail(email, users)) {
+        res.status(400).send('This email already exists.');
+    }
+
+    users[userID] = {
+        id: generateRandomString(),
+        email: email,
+        password: req.body.password // hash
+    };
+    res.cookie('user_id', userID);
+    res.redirect('/urls');
+});
+
+
+/**
+ * Store a created username in session.
  */
 app.post('/login', (req, res) => {
-    res.cookie('username', req.body.username);
     res.redirect('/urls');
 });
 
@@ -57,29 +83,20 @@ app.post('/login', (req, res) => {
  * Logout the user.
  */
 app.post('/logout', (req, res) => {
-    res.clearCookie('username');
+    res.clearCookie('user_id');
     res.redirect('/urls');
 });
-
-// register page
-app.get('/register', (req, res) => {
-    res.render('pages/register');
-})
-
-
-app.get('urls.json', (req, res) => {
-    res.json(urlDatabase);
-})
 
 /**
  * Display a listing of the resource
  */
 app.get('/urls', (req, res) => {
-    const username = req.cookies["username"];
+    const user = req.cookies["user_id"];
 
+    console.log(req.cookies);
     res.render('urls_index', {
         urls: urlDatabase,
-        username
+        user: users[user]
     });
 });
 
@@ -97,12 +114,14 @@ app.post("/urls", (req, res) => {
 });
 
 /**
- * Show the form for creating a new resource.
+ * Show the form to create a new resource.
  */
 app.get('/urls/new', (req, res) => {
-    const username = req.cookies["username"];
 
-    res.render('urls_new', {username});
+    const id = req.cookies["user_id"];
+    const user = users[id];
+
+    res.render('urls_new', {user});
 });
 
 /**
@@ -124,11 +143,12 @@ app.get("/u/:shortURL", (req, res) => {
  */
 app.get("/urls/:shortURL", (req, res) => {
     const shortURL = req.params.shortURL;
+    const user = req.cookies["user_id"];
 
     let templateVars = {
         shortURL: shortURL,
         longURL: urlDatabase[shortURL],
-        username: req.cookies["username"]
+        user: users[user]
     };
 
     res.render("urls_show", templateVars);
