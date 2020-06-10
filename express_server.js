@@ -1,9 +1,10 @@
 const express = require('express');
-const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = 8080;
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
 
 app.set('view engine', 'ejs');
 app.use(morgan('dev'));
@@ -17,7 +18,6 @@ const urlDatabase = {
     "b2xVn2": { longURL: "http://www.lighthouselabs.ca", userID: "S15tx8" },
     "9sm5xK": { longURL: "https://google.ca", userID: "9sm5xK" }
 };
-
 const users = {
     "S15tx8": {
         id: "S15tx8",
@@ -60,10 +60,11 @@ app.post('/register', (req, res) => {
         return res.status(400).send('This email already exists');
     } else {
         const userID = generateRandomString();
+        const hashedPassword = bcrypt.hashSync(password,10);
         const newUser = {
             id: userID,
             email: email,
-            password: password
+            password: hashedPassword
         };
         users[userID] = newUser;
         res.cookie('user_id', userID);
@@ -88,7 +89,7 @@ app.post('/login', (req, res) => {
 
     if (!user) {
         return res.status(403).send('Incorrect email or password.');
-    } else if (user.password !== password) {
+    } else if (!bcrypt.compareSync(password, user.password)) {
         return res.status(403).send('Incorrect email or password.');
     } else {
         res.cookie('user_id', user.id);
