@@ -1,16 +1,25 @@
 const generateRandomString = () => {
-    let str = '';
-    let random = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0987654321abcdefgijklmnopqrstuvwxyz';
-    let length = random.length;
+    let result = '';
+    const str = '0987654321ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgijklmnopqrstuvwxyz';
+    const length = str.length;
 
     let i = 0;
-    while (i < 7) {
+    while (i < 6) {
         i++;
-        str += random.charAt(Math.floor(Math.random() * length));
+        result += str.charAt(Math.floor(Math.random() * length));
+    };
+    return result;
+};
+
+const verifyUserEmail = (email, users) => {
+    for (const user of Object.values(users)) {
+        if (user.email === email) {
+            return false;
+        }
     }
-    return str;
-}
+};
 
 module.exports = {
-    generateRandomString
+    generateRandomString,
+    verifyUserEmail
 }
