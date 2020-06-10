@@ -3,13 +3,15 @@ const app = express();
 const PORT = 8080;
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-var cookieSession = require('cookie-session')
+const methodOverride = require('method-override');
+var cookieSession = require('cookie-session');
 const bcrypt = require('bcrypt');
 const { generateRandomString, verifyUser, urlsForUsers} = require('./helpers');
 
 app.set('view engine', 'ejs');
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ exended: true }));
+app.use(methodOverride('_method'));
 app.use(cookieSession({
     name: 'user_id',
     keys: ['iloveMrRobot11']
@@ -199,7 +201,7 @@ app.get("/urls/:shortURL", (req, res) => {
 /**
  * Update the specified resource.
  */
-app.post('/urls/:shortURL/update', (req, res) => {
+app.put('/urls/:shortURL/update', (req, res) => {
     const shortURL = req.params.shortURL;
     const id = req.session.user_id;
 
@@ -214,7 +216,7 @@ app.post('/urls/:shortURL/update', (req, res) => {
 /**
  * Delete the specified resource.
  */
-app.post('/urls/:shortURL/delete', (req, res) => {
+app.delete('/urls/:shortURL/delete', (req, res) => {
     const shortURL = req.params.shortURL;
     const id = req.session.user_id;
 

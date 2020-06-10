@@ -44,7 +44,7 @@
 
                         <!-- Delete the url -->
                         <td>
-                            <form action="/urls/<%= url %>/delete" method="POST">
+                            <form method="POST" action="/urls/<%= url %>/delete?_method=DELETE">
                                 <button class="btn btn-outline-danger">Delete</button>
                             </form>
                         </td>

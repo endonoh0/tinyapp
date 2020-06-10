@@ -22,7 +22,7 @@
                 <p class="card-text">Short URL: <a href="/u/<%= shortURL %>"><%= shortURL %></a></p>
 
                 <div>
-                    <form class="form-inline" method="POST" action="/urls/<%= shortURL %>/update">
+                    <form class="form-inline" method="POST" action="/urls/<%= shortURL %>/update?_method=PUT">
                         <h1 class="mr-3">Edit</h1>
                         <div class="form-group mb-2">
                             <input
