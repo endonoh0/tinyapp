@@ -37,20 +37,20 @@ const users = {
  * Display the home page.
  */
 app.get('/', (req, res) => {
-    if (req.session.user_id) {
-        res.redirect('/urls');
+    if (!req.session.user_id) {
+        res.render('pages/login', {user: null});
     };
-    res.redirect('/login');
+    res.redirect('/urls');
 });
 
 /**
  * Display the form to register.
  */
 app.get('/register', (req, res) => {
-    if (req.session.user_id) {
-        res.redirect('/urls')
+    if (!req.session.user_id) {
+        res.render('pages/register', {user: null});
     };
-    res.render('pages/register');
+    res.redirect('/urls')
 });
 
 /**
@@ -83,10 +83,11 @@ app.post('/register', (req, res) => {
  * Display the form to login.
  */
 app.get('/login', (req, res) => {
-    if (req.session.user_id) {
-        res.redirect('/urls');
+    if (!req.session.user_id) {
+        res.render('pages/login', {user: null});
     };
-    res.render('pages/login');
+
+    res.redirect('/urls');
 });
 
 /**
@@ -112,7 +113,7 @@ app.post('/login', (req, res) => {
  */
 app.post('/logout', (req, res) => {
     req.session = null;
-    res.redirect('/login');
+    res.redirect('/urls');
 });
 
 /**
@@ -126,12 +127,11 @@ app.get('/urls', (req, res) => {
             user: null,
             errorMessage: 'Please sign in or register to view this page.'
         });
-    } else {
-        res.render('urls_index', {
-            user: verifyUser(id, users),
-            urls: urlsForUsers(id, urlDatabase),
-        });
-    };
+    }
+    res.render('urls_index', {
+        user: verifyUser(id, users),
+        urls: urlsForUsers(id, urlDatabase)
+    });
 });
 
 /**
@@ -154,7 +154,7 @@ app.get('/urls/new', (req, res) => {
     const id = req.session.user_id;
 
     if (!id) {
-        return res.status(403).send('Please sign in or register to view this page.');
+        res.redirect('/login');
     };
     const user = users[id];
     res.render('urls_new', {user});
@@ -168,7 +168,7 @@ app.get("/u/:shortURL", (req, res) => {
 
     if (!urlDatabase[shortURL]) {
         return res.status(404).send('Page not found');
-    };
+    }
 
     const longURL = urlDatabase[shortURL].longURL;
     res.redirect(longURL);
