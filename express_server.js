@@ -55,9 +55,9 @@ app.post('/register', (req, res) => {
 
     // validation
     if (email === '' || password === '') {
-        res.status(400).send('Please fill in email or password');
+        return res.status(400).send('Please fill in email or password');
     } else if (user.email === email) {
-        res.status(400).send('This email already exists');
+        return res.status(400).send('This email already exists');
     } else {
         const userID = generateRandomString();
         const newUser = {
@@ -87,9 +87,9 @@ app.post('/login', (req, res) => {
     const user = verifyUser(email, users);
 
     if (!user) {
-        res.status(403).send('Incorrect email or password.');
+        return res.status(403).send('Incorrect email or password.');
     } else if (user.password !== password) {
-        res.status(403).send('Incorrect email or password.');
+        return res.status(403).send('Incorrect email or password.');
     } else {
         res.cookie('user_id', user.id);
         res.redirect('/urls');
@@ -157,7 +157,7 @@ app.get("/u/:shortURL", (req, res) => {
     const shortURL = req.params.shortURL;
 
     if (!urlDatabase[shortURL]) {
-        return res.status(404).send('Not Found');
+        return res.status(404).send('Page not found');
     }
 
     const longURL = urlDatabase[shortURL].longURL;
@@ -187,20 +187,32 @@ app.get("/urls/:shortURL", (req, res) => {
 });
 
 /**
- * Delete the specified resource.
- */
-app.post('/urls/:shortURL/delete', (req, res) => {
-    const shortURL = req.params.shortURL;
-    delete urlDatabase[shortURL];
-    res.redirect('/urls');
-});
-
-/**
  * Update the specified resource.
  */
 app.post('/urls/:shortURL/update', (req, res) => {
     const shortURL = req.params.shortURL;
+    const id = req.cookies["user_id"];
+
+    if (!id || urlDatabase[shortURL].userID !== id) {
+        res.status(403).send('You do not have permission.')
+    }
+
     urlDatabase[shortURL].longURL = req.body.longURL;
+    res.redirect('/urls');
+});
+
+/**
+ * Delete the specified resource.
+ */
+app.post('/urls/:shortURL/delete', (req, res) => {
+    const shortURL = req.params.shortURL;
+    const id = req.cookies["user_id"];
+
+    if (!id || urlDatabase[shortURL].userID !== id) {
+        res.status(403).send('You do not have permission.')
+    }
+
+    delete urlDatabase[shortURL];
     res.redirect('/urls');
 });
 
