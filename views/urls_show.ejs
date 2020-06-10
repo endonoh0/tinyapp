@@ -35,7 +35,7 @@
                     </form>
                 </div>
                 <% } else { %>
-                    <div id='status' class='invisible'><%= errorMessage %></div>
+                    <div id='error' class='invisible'><%= errorMessage %></div>
                 <% } %>
             </div>
     </div>
@@ -51,8 +51,8 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
     <script>
-        if ($('div#status').text() != '') {
-            alert($('div#status').text()); }
+        if ($('div#error').text() != '') {
+            alert($('div#error').text()); }
     </script>
 </body>
 

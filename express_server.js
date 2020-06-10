@@ -143,11 +143,11 @@ app.get('/urls/new', (req, res) => {
     const id = req.cookies["user_id"];
 
     if (!id) {
-        res.redirect('/login');
-    } else {
-        const user = users[id];
-        res.render('urls_new', {user});
-    };
+        return res.status(403).send('Please sign in or register to view this page.');
+    }
+
+    const user = users[id];
+    res.render('urls_new', {user});
 });
 
 /**
