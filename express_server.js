@@ -132,7 +132,8 @@ app.get('/urls', (req, res) => {
     }
     res.render('urls_index', {
         user: verifyUser(id, users),
-        urls: urlsForUsers(id, urlDatabase)
+        urls: urlsForUsers(id, urlDatabase),
+        errorMessage: null
     });
 });
 
