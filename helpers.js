@@ -23,7 +23,7 @@ const urlsForUsers = (id, urlDatabase) => {
 
 const verifyUser = (val, usersDatabase) => {
     for (const id of Object.keys(usersDatabase)) {
-        if (usersDatabase[id].email === val ) {
+        if (usersDatabase[id].email === val) {
             return usersDatabase[id];
         }
         if (id === val) {

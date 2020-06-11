@@ -1,27 +1,30 @@
 const express = require('express');
 const app = express();
 const PORT = 8080;
+
+const { generateRandomString, verifyUser, urlsForUsers} = require('./helpers');
 const morgan = require('morgan');
-const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 var cookieSession = require('cookie-session');
+const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
-const { generateRandomString, verifyUser, urlsForUsers} = require('./helpers');
 
-app.set('view engine', 'ejs');
 app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({ exended: true }));
 app.use(methodOverride('_method'));
 app.use(cookieSession({
     name: 'user_id',
     keys: ['iloveMrRobot11']
 }));
+app.use(bodyParser.urlencoded({ exended: true }));
+app.set('view engine', 'ejs');
 
+/*** URL Database ****/
 const urlDatabase = {
     b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
     i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" }
 };
 
+/*** Users Databse ***/
 const users = {
     "userRandomID": {
         id: "userRandomID",
@@ -80,6 +83,10 @@ app.post('/register', (req, res) => {
         res.redirect('/urls');
     };
 });
+
+/*
+
+*/
 
 /**
  * Display the form to login.
