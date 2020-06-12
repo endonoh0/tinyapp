@@ -144,7 +144,7 @@ app.get('/urls', (req, res) => {
 /**
  * Store a newly created resource in database.
  */
-app.post("/urls", (req, res) => {
+app.post('/urls', (req, res) => {
     const shortURL = generateRandomString();
 
     urlDatabase[shortURL] = {
@@ -171,7 +171,7 @@ app.get('/urls/new', (req, res) => {
 /**
  * Redirect to the specified resource.
  */
-app.get("/u/:shortURL", (req, res) => {
+app.get('/u/:shortURL', (req, res) => {
     const shortURL = req.params.shortURL;
 
     if (!urlDatabase[shortURL]) {
@@ -185,7 +185,7 @@ app.get("/u/:shortURL", (req, res) => {
 /**
  * Display the specified resource.
  */
-app.get("/urls/:shortURL", (req, res) => {
+app.get('/urls/:shortURL', (req, res) => {
     const shortURL = req.params.shortURL;
     const id = req.session.user_id;
 
@@ -202,7 +202,7 @@ app.get("/urls/:shortURL", (req, res) => {
             errorMessage: 'You do not have permission to view this page.'
         });
      } else {
-        res.render("urls_show", {
+        res.render('urls_show', {
             shortURL: shortURL,
             longURL: urlDatabase[shortURL],
             user: users[id]
