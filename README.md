@@ -17,12 +17,16 @@ TinyApp is a simple URL shortener, build with Node and Express.
 - cookie-session
 - method-overide
 
-## Getting Started
+## Installation
 
+#### Step 1:
 Install all dependencies 
-`npm install`
+```npm install```
 
+#### Step 2:
 Run the development web server
-`npm run start`
+```npm run start```
+
+#### Step 3:
 
 Visit http://localhost:8080/register to create a new account and shorten your first URL!
