@@ -16,13 +16,13 @@
             <% if(user) { %>
                 <!-- Display long and short url -->
                 <h3 id="text-2xl">TinyURL for: <%= longURL.longURL %></h3>
-                <p class="card-text">Short URL: <a href="/u/<%= shortURL %>"><%= shortURL %></a></p>
+                <p class="card-text pt-4">Short URL: <a href="/u/<%= shortURL %>"><%= shortURL %></a></p>
 
                 <div id="url" class="centercon">
                     <form id="card" class="form-inline mt-4"
                         method="POST" action="/urls/<%= shortURL %>/update?_method=PUT">
 
-                        <h1 class="mr-3">Edit</h1>
+                        <h2 class="mr-3">Edit</h2>
                         <div class="form-group mb-2">
                             <input
                                 type="text"
@@ -30,7 +30,7 @@
                                 placeholder="<%= longURL.longURL %>"
                                 required
                             >
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary ml-3">Submit</button>
                         </div>
                     </form>
                 </div>

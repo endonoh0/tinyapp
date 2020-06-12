@@ -18,13 +18,12 @@ app.use(cookieSession({
 app.use(bodyParser.urlencoded({ exended: true }));
 app.set('view engine', 'ejs');
 
-/*** URL Database ****/
+// Test Database
 const urlDatabase = {
     b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
     i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" }
 };
 
-/*** Users Databse ***/
 const users = {
     "userRandomID": {
         id: "userRandomID",
@@ -40,11 +39,12 @@ const users = {
 
 /**
  * Display the home page.
+ *
  */
 app.get('/', (req, res) => {
     if (!req.session.user_id) {
         res.render('pages/login', {user: null});
-    };
+    }
     res.redirect('/urls');
 });
 
@@ -54,8 +54,8 @@ app.get('/', (req, res) => {
 app.get('/register', (req, res) => {
     if (!req.session.user_id) {
         res.render('pages/register', {user: null});
-    };
-    res.redirect('/urls')
+    }
+    res.redirect('/urls');
 });
 
 /**
@@ -83,7 +83,7 @@ app.post('/register', (req, res) => {
 
         req.session.user_id = userID;
         res.redirect('/urls');
-    };
+    }
 });
 
 /**
@@ -92,7 +92,7 @@ app.post('/register', (req, res) => {
 app.get('/login', (req, res) => {
     if (!req.session.user_id) {
         res.render('pages/login', {user: null});
-    };
+    }
 
     res.redirect('/urls');
 });
@@ -112,7 +112,7 @@ app.post('/login', (req, res) => {
     } else {
         req.session.user_id = user.id;
         res.redirect('/urls');
-    };
+    }
 });
 
 /**
@@ -133,14 +133,14 @@ app.get('/urls', (req, res) => {
         res.render('urls_index', {
             user: null,
             errorMessage: 'Please sign in or register to view this page.'
-        });
+        })
     } else {
         res.render('urls_index', {
             user: verifyUser(id, users),
             urls: urlsForUsers(id, urlDatabase),
             errorMessage: null
         });
-    };
+    }
 });
 
 /**
@@ -167,7 +167,7 @@ app.get('/urls/new', (req, res) => {
     } else {
         const user = users[id];
         res.render('urls_new', {user});
-    };
+    }
 });
 
 /**
@@ -178,7 +178,7 @@ app.get("/u/:shortURL", (req, res) => {
 
     if (!urlDatabase[shortURL]) {
         return res.status(404).send('Page not found');
-    };
+    }
 
     const longURL = urlDatabase[shortURL].longURL;
     res.redirect(longURL);
@@ -192,18 +192,24 @@ app.get("/urls/:shortURL", (req, res) => {
     const id = req.session.user_id;
 
     if (!id) {
-        return res.render('urls_show', {user: null, errorMessage: 'Please sign in or register to view this page.'});
+        return res.render('urls_show', {
+            user: null,
+            errorMessage: 'Please sign in or register to view this page.'
+        });
     } else if (!urlDatabase[shortURL]) {
         return res.status(404).send('Not Found');
     } else if (urlDatabase[shortURL].userID !== id) {
-        return res.render("urls_show", {user: null, errorMessage: 'You do not have permission to view this page.'});
+        return res.render("urls_show", {
+            user: null,
+            errorMessage: 'You do not have permission to view this page.'
+        });
      } else {
         res.render("urls_show", {
             shortURL: shortURL,
             longURL: urlDatabase[shortURL],
             user: users[id]
         });
-     };
+     }
 });
 
 /**
@@ -218,7 +224,7 @@ app.put('/urls/:shortURL/update', (req, res) => {
     } else {
         urlDatabase[shortURL].longURL = req.body.longURL;
         res.redirect('/urls');
-    };
+    }
 });
 
 /**
@@ -233,7 +239,7 @@ app.delete('/urls/:shortURL/delete', (req, res) => {
     } else {
         delete urlDatabase[shortURL];
         res.redirect('/urls');
-    };
+    }
 });
 
 app.listen(PORT, () => {
