@@ -62,8 +62,7 @@ app.get('/register', (req, res) => {
  * Register a new user.
  */
 app.post('/register', (req, res) => {
-    const email = req.body.email;
-    const password = req.body.password;
+    const { email, password } = req.body;
     const user = verifyUser(email, users);
 
     if (email === '' || password === '') {
@@ -72,7 +71,7 @@ app.post('/register', (req, res) => {
         return res.status(400).send('This email already exists');
     } else {
         const userID = generateRandomString();
-        const hashedPassword = bcrypt.hashSync(password,10);
+        const hashedPassword = bcrypt.hashSync(password, 10);
 
         const newUser = {
             id: userID,
@@ -101,8 +100,7 @@ app.get('/login', (req, res) => {
  * Store a created user in session.
  */
 app.post('/login', (req, res) => {
-    const email = req.body.email;
-    const password = req.body.password;
+    const { email, password } = req.body;
     const user = verifyUser(email, users);
 
     if (!user) {
