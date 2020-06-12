@@ -2,13 +2,11 @@
 
 TinyApp is a simple URL shortener, build in Node and Express.
 
-## Final Product
+## Screenshots
 
-[TinyApp keeps a list of your personal URLs](/docs/my-urls.png)
-
-[Simply enter a URL](/docs/urls-create.png)
-
-[Share your shorten URL link  with other users!](/docs/urls-edit.png)
+![TinyApp keeps a list of your personal URLs.](/docs/my-urls.png)
+![Simply enter a URL.](/docs/urls-create.png)
+![Share your shorten URL link  with other users!](/docs/urls-edit.png)
 
 ## Dependencies
 
