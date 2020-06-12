@@ -1,14 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <%- include('./partials/_head') %>
-</head>
+<head><%- include('./partials/_head') %></head>
 
 <body class="container">
-    <header>
-        <%- include('./partials/_header') %>
-    </header>
+    <header><%- include('./partials/_header') %></header>
 
     <main>
         <div class="wraptitle">
@@ -32,12 +28,10 @@
                     <tr>
                         <td><a href="/u/<%= url %>"><%= url %></a></td>
                         <td><%= urls[url].longURL %></td>
-
                         <!-- Edit -->
                         <td>
                             <a href="/urls/<%= url %>" class="btn btn-outline-primary">Edit</a>
                         </td>
-
                         <!-- Delete -->
                         <td>
                             <form method="POST" action="/urls/<%= url %>/delete?_method=DELETE">
@@ -52,8 +46,7 @@
             </tbody>
         </table>
     </main>
-    <footer>
-        <%- include('./partials/_footer') %>
-    </footer>
+
+    <footer><%- include('./partials/_footer') %></footer>
 </body>
 </html>

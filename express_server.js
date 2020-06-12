@@ -73,20 +73,18 @@ app.post('/register', (req, res) => {
     } else {
         const userID = generateRandomString();
         const hashedPassword = bcrypt.hashSync(password,10);
+
         const newUser = {
             id: userID,
             email: email,
             password: hashedPassword
         };
         users[userID] = newUser;
+
         req.session.user_id = userID;
         res.redirect('/urls');
     };
 });
-
-/*
-
-*/
 
 /**
  * Display the form to login.
@@ -136,12 +134,13 @@ app.get('/urls', (req, res) => {
             user: null,
             errorMessage: 'Please sign in or register to view this page.'
         });
-    }
-    res.render('urls_index', {
-        user: verifyUser(id, users),
-        urls: urlsForUsers(id, urlDatabase),
-        errorMessage: null
-    });
+    } else {
+        res.render('urls_index', {
+            user: verifyUser(id, users),
+            urls: urlsForUsers(id, urlDatabase),
+            errorMessage: null
+        });
+    };
 });
 
 /**
@@ -165,9 +164,10 @@ app.get('/urls/new', (req, res) => {
 
     if (!id) {
         res.redirect('/login');
+    } else {
+        const user = users[id];
+        res.render('urls_new', {user});
     };
-    const user = users[id];
-    res.render('urls_new', {user});
 });
 
 /**
@@ -178,7 +178,7 @@ app.get("/u/:shortURL", (req, res) => {
 
     if (!urlDatabase[shortURL]) {
         return res.status(404).send('Page not found');
-    }
+    };
 
     const longURL = urlDatabase[shortURL].longURL;
     res.redirect(longURL);
@@ -215,10 +215,10 @@ app.put('/urls/:shortURL/update', (req, res) => {
 
     if (!id || urlDatabase[shortURL].userID !== id) {
         res.status(403).send('You do not have permission.')
+    } else {
+        urlDatabase[shortURL].longURL = req.body.longURL;
+        res.redirect('/urls');
     };
-
-    urlDatabase[shortURL].longURL = req.body.longURL;
-    res.redirect('/urls');
 });
 
 /**
@@ -230,10 +230,10 @@ app.delete('/urls/:shortURL/delete', (req, res) => {
 
     if (!id || urlDatabase[shortURL].userID !== id) {
         res.status(403).send('You do not have permission.')
+    } else {
+        delete urlDatabase[shortURL];
+        res.redirect('/urls');
     };
-
-    delete urlDatabase[shortURL];
-    res.redirect('/urls');
 });
 
 app.listen(PORT, () => {
