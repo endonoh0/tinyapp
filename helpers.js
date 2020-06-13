@@ -1,3 +1,6 @@
+/**
+ * Generate a random 6 character string
+ */
 const generateRandomString = () => {
     let result = '';
     const str = '0987654321ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgijklmnopqrstuvwxyz';
@@ -11,6 +14,13 @@ const generateRandomString = () => {
     return result;
 };
 
+/**
+ * Fetch the user's url in database.
+ *
+ * @param  string id
+ * @param  object urlDatabase
+ * @return object
+ */
 const urlsForUsers = (id, urlDatabase) => {
     let userDatabase= {};
     for (const key in urlDatabase) {
@@ -21,6 +31,13 @@ const urlsForUsers = (id, urlDatabase) => {
     return userDatabase;
 };
 
+/**
+ * Verify if the user exists in database.
+ *
+ * @param  string val
+ * @param  object usersDatabase
+ * @return object
+ */
 const verifyUser = (val, usersDatabase) => {
     for (const id of Object.keys(usersDatabase)) {
         if (
