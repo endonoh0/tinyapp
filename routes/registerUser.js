@@ -11,7 +11,7 @@ app.post('/register', (req, res) => {
     const { email, password } = req.body;
     const user = verifyUser(email, users);
 
-    if (email === '' || password === '') {
+    if (!email || !password) {
         return res.status(400).send('Please fill in email or password');
     } else if (user.email === email) {
         return res.status(400).send('This email already exists');
