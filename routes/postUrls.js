@@ -8,9 +8,14 @@ const { urlDatabase } = require('../database');
  */
 app.post('/urls', (req, res) => {
     const shortURL = generateRandomString();
+    let longURL = req.body.longURL;
+
+    if (!longURL.includes("http://")) {
+        longURL = `http://${longURL}`;
+    }
 
     urlDatabase[shortURL] = {
-        longURL: req.body.longURL,
+        longURL: longURL,
         userID: req.session.user_id
     };
     res.redirect(`/urls/${shortURL}`);
