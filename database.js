@@ -1,6 +1,20 @@
 const urlDatabase = {
-    b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
-    i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" }
+    b6UTxQ: {
+        longURL: "https://www.tsn.ca",
+        userID: "aJ48lW",
+        history: [{
+            visitorID: "d92s9f",
+            date: "2020-06-13T22:40:47.315Z"
+        }]
+    },
+    i3BoGr: {
+        longURL: "https://www.google.ca",
+        userID: "aJ48lW",
+        history: [{
+            visitorID: "03sdm3",
+            date: "2020-06-13T22:40:47.315Z"
+        }]
+    }
 };
 
 const users = {
