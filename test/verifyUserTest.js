@@ -1,22 +1,10 @@
 const { assert } = require('chai');
 const { verifyUser } = require('../helpers.js');
-
-const testUsers = {
-    "userRandomID": {
-        id: "userRandomID",
-        email: "user@example.com",
-        password: "purple-monkey-dinosaur"
-    },
-    "user2RandomID": {
-        id: "user2RandomID",
-        email: "user2@example.com",
-        password: "dishwasher-funk"
-    }
-};
+const { users } = require('../database');
 
 describe('verifyUser', function () {
     it('should return a user with valid email', function () {
-        const user = verifyUser("user@example.com", testUsers);
+        const user = verifyUser("user@example.com", users);
         const result = user.id;
         const expectedOutput = "userRandomID";
 
@@ -24,13 +12,13 @@ describe('verifyUser', function () {
     });
 
     it('should return false with an invalid email', function () {
-        const result = verifyUser("fake@example.com", testUsers);
+        const result = verifyUser("fake@example.com", users);
 
         assert.equal(result, false);
     });
 
     it('should return an user\'s email with a valid id', function () {
-        const user = verifyUser("user2RandomID", testUsers);
+        const user = verifyUser("user2RandomID", users);
         const result = user.email;
         const expectedOutput = "user2@example.com";
 
@@ -38,7 +26,7 @@ describe('verifyUser', function () {
     });
 
     it('should return false with an invalid id', function () {
-        const result = verifyUser("fakeID", testUsers);
+        const result = verifyUser("fakeID", users);
 
         assert.equal(result, false);
     });
