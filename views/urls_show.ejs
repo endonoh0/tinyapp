@@ -33,6 +33,24 @@
                     </div>
                 </form>
             </div>
+            <table class="table mt-5">
+                <thead>
+                    <tr>
+                        <td scope="col">User ID</tj>
+                        <td scope="col">Date Visit</tj>
+                        <td scope="col">Total Visits</tj>
+                        <td scope="col">Unique Visits</tj>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> <%=  %> </td>
+                        <td> <%=  %> </td>
+                        <td> 0 </td>
+                        <td> 0 </td>
+                    </tr>
+                </tbody>
+            </table>
             <% } else { %>
                 <div id='error' class='invisible'><%= errorMessage %></div>
             <% } %>
