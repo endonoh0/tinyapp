@@ -11,7 +11,23 @@ describe('calculateVisitCount', function () {
         };
 
         const result = calculateVisitCount(urlHistory);
-        const expectedOutput = { totalCount: 2, uniqueCount: 1 };
+        const expectedOutput = { total: 3, unique: 1 };
+
+        assert.deepEqual(result, expectedOutput);
+    });
+
+    it('should return the number of total and unique visiters for a given history', function () {
+        const urlHistory = {
+            history:
+                [{ visitorID: "d92s9f", date: "2020-06-13T22:40:47.315Z" },
+                { visitorID: "jdj29d", date: "2020-06-13T22:40:47.315Z" },
+                { visitorID: "asd20d", date: "2020-06-13T22:40:47.315Z" },
+                { visitorID: "2d02md", date: "2020-06-13T22:40:47.315Z" },
+                { visitorID: "asd20d", date: "2020-06-13T22:40:47.315Z" }]
+        };
+
+        const result = calculateVisitCount(urlHistory);
+        const expectedOutput = { total: 5, unique: 4 };
 
         assert.deepEqual(result, expectedOutput);
     });
