@@ -1,3 +1,5 @@
+const { urlDatabase } = require("./database");
+
 /**
  * Generate a random 6 character string
  */
@@ -32,6 +34,30 @@ const urlsForUsers = (id, urlDatabase) => {
 };
 
 /**
+ * Fetch the user's URL history.
+ *
+ * @param  string id
+ * @param  object urlDatabase
+ * @return object
+ */
+const urlHistoryForUsers = (id, urlDatabase) => {
+    let historyDatabase = {};
+    for (const URL in urlDatabase) {
+        if (urlDatabase[URL].userID === id) {
+            historyDatabase[URL] = {
+                history: urlDatabase[URL].history
+            }
+        } else {
+            return null;
+        }
+    }
+    return historyDatabase;
+}
+// let result = urlHistoryForUsers("aJ48lW", urlDatabase);
+// console.log(result["b6UTxQ"])
+// console.log(result);
+
+/**
  * Verify if the user exists in database.
  *
  * @param  string val
@@ -52,5 +78,6 @@ const verifyUser = (val, usersDatabase) => {
 module.exports = {
     generateRandomString,
     verifyUser,
-    urlsForUsers
+    urlsForUsers,
+    urlHistoryForUsers
 }
