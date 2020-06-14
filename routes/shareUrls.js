@@ -9,20 +9,25 @@ const { generateRandomString } = require('../helpers');
  */
 app.get('/u/:shortURL', (req, res) => {
     const shortURL = req.params.shortURL;
-    let id = req.session.user_id;
+    const id = req.session.user_id;
+    // Set visitor ID
+    let visitorID = id;
 
     if (!urlDatabase[shortURL]) {
         return res.status(404).send('Page not found');
-    } else if (!id) {
-        id = generateRandomString();
+    }
+
+    if (!id) {
+        visitorID = generateRandomString();
+        // req.sesssion.visitorID = visitorID;
     }
 
     const visitInfo = {
-        id: id,
+        visitorID: visitorID,
         date: new Date()
     }
 
-    urlDatabase[shortURL][history].push(visitInfo);
+    urlDatabase[shortURL]["history"].push(visitInfo);
 
     const longURL = urlDatabase[shortURL].longURL;
     res.redirect(longURL);
