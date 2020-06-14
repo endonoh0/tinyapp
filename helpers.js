@@ -65,6 +65,10 @@ const countCollection = (arr) => {
     let val = arr[0];
 
     arr.forEach(id => {
+        if (unique === 0) {
+            unique++
+        }
+
         if (id !== val) {
             unique++;
             total++;
@@ -72,10 +76,6 @@ const countCollection = (arr) => {
             total++;
         }
     });
-
-    if (unique === 0) {
-        unique++
-    }
 
     return count = {
         unique,
