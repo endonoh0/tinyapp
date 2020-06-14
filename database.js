@@ -22,6 +22,11 @@ const urlDatabase = {
             visitorID: "sws9f",
             date: "2020-06-13T22:40:47.315Z"
         }]
+    },
+    kd29ds: {
+        longURL: "https://yahoo.ca",
+        userID: "3ksl3d",
+        history: []
     }
 };
 
