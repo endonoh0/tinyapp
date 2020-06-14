@@ -17,6 +17,10 @@
                 <h3 id="text-2xl">TinyURL for: <%= longURL.longURL %></h3>
                 <p class="card-text pt-4">Short URL: <a href="/u/<%= shortURL %>"><%= shortURL %></a></p>
             <% } %>
+                <div>
+                    <p><strong>Total Visits:</strong> <%= visitCount.total %></p>
+                    <p><strong>Unique Visits:</strong> <%= visitCount.unique %></p>
+                </div>
                 <div id="url" class="centercon">
                     <form id="card" class="form-inline mt-4"
                         method="POST" action="/urls/<%= shortURL %>/update?_method=PUT">
@@ -37,10 +41,8 @@
                 <table class="table mt-5">
                     <thead>
                         <tr>
-                            <td scope="col">Visitor ID</td>
-                            <td scope="col">Date Visit</td>
-                            <td scope="col">Total Visits: <%= visitCount.total %></td>
-                            <td scope="col">Unique Visits: <%= visitCount.unique %></td>
+                            <td scope="col"><strong>Visitor ID</strong></td>
+                            <td scope="col"><strong>Date Visit</strong></td>
                         </tr>
                     </thead>
                     <tbody>
