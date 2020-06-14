@@ -2,6 +2,8 @@ const { urlDatabase } = require("./database");
 
 /**
  * Generate a random 6 character string
+ *
+ * @return string
  */
 const generateRandomString = () => {
     let result = '';
@@ -17,11 +19,11 @@ const generateRandomString = () => {
 };
 
 /**
- * Fetch the user's url in database.
+ * Fetch the user's url in database
  *
  * @param  string id
  * @param  object urlDatabase
- * @return object userURLDatabase
+ * @return object
  */
 const urlsForUsers = (id, urlDatabase) => {
     let userURLDatabase= {};
@@ -34,11 +36,11 @@ const urlsForUsers = (id, urlDatabase) => {
 };
 
 /**
- * Fetch the user's URL history.
+ * Fetch the user's URL history
  *
  * @param  string id
  * @param  object urlDatabase
- * @return object hisitoryDatabase
+ * @return object
  */
 const urlHistoryForUsers = (id, urlDatabase) => {
     let historyDatabase = {};
@@ -53,7 +55,7 @@ const urlHistoryForUsers = (id, urlDatabase) => {
 }
 
 /**
- *  Count the number of visiters and unique visiters
+ *  Count the number of visits and unique visits
  *
  * @param  array arr
  * @return object
@@ -84,7 +86,7 @@ const countCollection = (arr) => {
 }
 
 /**
- * Fetch a collection of visit counts
+ * Fetch a collection of visitors
  *
  * @param  obj urlHistory
  * @return obj
@@ -108,11 +110,11 @@ const calculateVisitCount = (urlHistory) => {
 }
 
 /**
- * Verify if the user exists in database.
+ * Verify if the user exists in database
  *
  * @param  string val
  * @param  object usersDatabase
- * @return object
+ * @return mixed
  */
 const verifyUser = (val, usersDatabase) => {
     for (const id of Object.keys(usersDatabase)) {
