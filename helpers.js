@@ -33,7 +33,6 @@ const urlsForUsers = (id, urlDatabase) => {
     return userURLDatabase;
 };
 
-
 /**
  * Fetch the user's URL history.
  *
@@ -48,8 +47,6 @@ const urlHistoryForUsers = (id, urlDatabase) => {
             historyDatabase[url] = {
                 history: urlDatabase[url].history
             }
-        } else {
-            return urlDatabase;
         }
     }
     return historyDatabase;
@@ -70,11 +67,15 @@ const countCollection = (arr) => {
     arr.forEach(id => {
         if (id !== val) {
             unique++;
-            total++
+            total++;
         } else {
-            total++
+            total++;
         }
     });
+
+    if (unique === 0) {
+        unique++
+    }
 
     return count = {
         unique,
@@ -91,14 +92,18 @@ const countCollection = (arr) => {
 const calculateVisitCount = (urlHistory) => {
     let visitors = [];
 
-    for (const history in urlHistory) {
-        for (const count of urlHistory[history]) {
-            let stats = Object.values(count);
-            let id = stats[0];
-            visitors.push(id);
+    for (const id in urlHistory) {
+        const length = urlHistory[id].length;
+        if (length === 0) {
+            return { unique: 0, total: 0 };
+        }
+
+        for (const props of urlHistory[id]) {
+            let data = Object.values(props);
+            let visitorId = data[0];
+            visitors.push(visitorId);
         }
     }
-    // console.log(visitors)
     return countCollection(visitors);
 }
 
