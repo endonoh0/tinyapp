@@ -1,6 +1,7 @@
 const express = require('express');
 const app = module.exports = express();
-const { users, urlDatabase } = require('../database')
+const { users, urlDatabase } = require('../database');
+const { urlHistoryForUsers } = require('../helpers');
 
 /**
  * Display the specified resource.
@@ -21,11 +22,14 @@ app.get('/urls/:shortURL', (req, res) => {
             user: null,
             errorMessage: 'You do not have permission to view this page.'
         });
-    } else {
+    }
+    const urlHistory = urlHistoryForUsers(id, urlDatabase);
+    const urlInfo = urlHistory[shortURL];
+
         res.render('urls_show', {
             shortURL: shortURL,
             longURL: urlDatabase[shortURL],
-            user: users[id]
+            user: users[id],
+            urlInfo
         });
-    }
 });
