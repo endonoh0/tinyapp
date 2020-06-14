@@ -48,14 +48,23 @@ const urlHistoryForUsers = (id, urlDatabase) => {
                 history: urlDatabase[URL].history
             }
         } else {
-            return null;
+            // BEFORE: return null
+            return urlDatabase; // return user collection
         }
     }
     return historyDatabase;
 }
-// let result = urlHistoryForUsers("aJ48lW", urlDatabase);
-// console.log(result["b6UTxQ"])
-// console.log(result);
+
+
+let result = urlHistoryForUsers("aJ48lW", urlDatabase);
+let info = result["b6UTxQ"]
+for (const url in info) {
+    let stats = info[url];
+    for (const stat of stats) {
+        let date = stat.date;
+        let id = stat.visitorID;
+    }
+}
 
 /**
  * Verify if the user exists in database.
