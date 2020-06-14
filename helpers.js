@@ -24,13 +24,13 @@ const generateRandomString = () => {
  * @return object
  */
 const urlsForUsers = (id, urlDatabase) => {
-    let userDatabase= {};
+    let urlDatabase= {};
     for (const key in urlDatabase) {
         if (urlDatabase[key].userID === id) {
             userDatabase[key] = {longURL:urlDatabase[key].longURL};
         }
     };
-    return userDatabase;
+    return urlDatabase;
 };
 
 /**
@@ -38,32 +38,65 @@ const urlsForUsers = (id, urlDatabase) => {
  *
  * @param  string id
  * @param  object urlDatabase
- * @return object
+ * @return object hisitoryDatabase
  */
 const urlHistoryForUsers = (id, urlDatabase) => {
     let historyDatabase = {};
-    for (const URL in urlDatabase) {
-        if (urlDatabase[URL].userID === id) {
-            historyDatabase[URL] = {
-                history: urlDatabase[URL].history
+    for (const url in urlDatabase) {
+        if (urlDatabase[url].userID === id) {
+            historyDatabase[url] = {
+                history: urlDatabase[url].history
             }
         } else {
-            // BEFORE: return null
-            return urlDatabase; // return user collection
+            return urlDatabase;
         }
     }
     return historyDatabase;
 }
 
+/**
+ *  Count the number of visiters and unique visiters
+ *
+ * @param  array arr
+ * @return object
+ */
+const countCollection = (arr) => {
+    let count = {}
+    let uniqueCount = 0;
+    let totalCount = 0;
+    let val = arr[0];
 
-let result = urlHistoryForUsers("aJ48lW", urlDatabase);
-let info = result["b6UTxQ"]
-for (const url in info) {
-    let stats = info[url];
-    for (const stat of stats) {
-        let date = stat.date;
-        let id = stat.visitorID;
+    arr.forEach(id => {
+        if (id !== val) {
+            uniqueCount++
+        } else {
+            totalCount++
+        }
+    });
+
+    return count = {
+        totalCount,
+        uniqueCount
     }
+}
+
+/**
+ * Fetch a collection of visit counts
+ *
+ * @param  obj urlHistory
+ * @return obj
+ */
+const calculateVisitCount = (urlHistory) => {
+    let visitors = [];
+
+    for (const history in urlHistory) {
+        for (const count of urlHistory[history]) {
+            let stats = Object.values(count);
+            let id = stats[0];
+            visitors.push(id);
+        }
+    }
+    return countCollection(visitors);
 }
 
 /**
@@ -88,5 +121,7 @@ module.exports = {
     generateRandomString,
     verifyUser,
     urlsForUsers,
-    urlHistoryForUsers
+    urlHistoryForUsers,
+    calculateVisitCount,
+    countCollection
 }
