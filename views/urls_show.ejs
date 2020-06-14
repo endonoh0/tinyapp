@@ -16,7 +16,7 @@
                 <!-- Display long and short url -->
                 <h3 id="text-2xl">TinyURL for: <%= longURL.longURL %></h3>
                 <p class="card-text pt-4">Short URL: <a href="/u/<%= shortURL %>"><%= shortURL %></a></p>
-
+            <% } %>
                 <div id="url" class="centercon">
                     <form id="card" class="form-inline mt-4"
                         method="POST" action="/urls/<%= shortURL %>/update?_method=PUT">
@@ -33,25 +33,26 @@
                         </div>
                     </form>
                 </div>
-            <% } %>
+
                 <table class="table mt-5">
                     <thead>
                         <tr>
-                            <td scope="col">User ID</tj>
+                            <td scope="col">Visitor ID</tj>
                             <td scope="col">Date Visit</tj>
                             <td scope="col">Total Visits</tj>
                             <td scope="col">Unique Visits</tj>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td> <%  %> </td>
-                            <td> <%=  %> </td>
-                            <td> 0 </td>
-                            <td> 0 </td>
-                        </tr>
+                        <% for (const url in urlInfo) { %>
+                            <% for (const stat of urlInfo[url]) { %>
+                            <tr>
+                                <td><%= stat.visitorID %></td>
+                                <td><%= stat.date %></td>
+                            </tr>
+                            <% } %>
+                        <% } %>
                     </tbody>
-
                 </table>
             <% if (!user) { %>
                 <div id='error' class='invisible'><%= errorMessage %></div>
@@ -60,5 +61,8 @@
     </main>
 
     <footer><%- include('./partials/_footer') %></footer>
+    <script>
+        $("td:empty").remove();
+    </script>
 </body>
 </html>
