@@ -63,21 +63,22 @@ const urlHistoryForUsers = (id, urlDatabase) => {
  */
 const countCollection = (arr) => {
     let count = {}
-    let uniqueCount = 0;
-    let totalCount = 0;
+    let unique = 0;
+    let total = 0;
     let val = arr[0];
 
     arr.forEach(id => {
         if (id !== val) {
-            uniqueCount++
+            unique++;
+            total++
         } else {
-            totalCount++
+            total++
         }
     });
 
     return count = {
-        totalCount,
-        uniqueCount
+        unique,
+        total
     }
 }
 
@@ -97,6 +98,7 @@ const calculateVisitCount = (urlHistory) => {
             visitors.push(id);
         }
     }
+    // console.log(visitors)
     return countCollection(visitors);
 }
 
