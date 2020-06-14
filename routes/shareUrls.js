@@ -10,7 +10,6 @@ const { generateRandomString } = require('../helpers');
 app.get('/u/:shortURL', (req, res) => {
     const shortURL = req.params.shortURL;
     const id = req.session.user_id;
-    // Set visitor ID
     let visitorID = id;
 
     if (!urlDatabase[shortURL]) {
@@ -19,12 +18,14 @@ app.get('/u/:shortURL', (req, res) => {
 
     if (!id) {
         visitorID = generateRandomString();
-        // req.sesssion.visitorID = visitorID;
     }
+
+    let time = new Date();
+    let date = time.toDateString();
 
     const visitInfo = {
         visitorID: visitorID,
-        date: new Date()
+        date: date
     }
 
     urlDatabase[shortURL]["history"].push(visitInfo);
