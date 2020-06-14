@@ -4,15 +4,15 @@ const urlDatabase = {
         userID: "aJ48lW",
         history: [{
             visitorID: "d92s9f",
-            date: "2020-06-13T22:40:47.315Z"
+            date: "Sun Jun 14 2020"
         },
         {
             visitorID: "d92s9f",
-            date: "2020-06-13T22:40:47.315Z"
+            date: "Sun Jun 14 2020"
         },
         {
             visitorID: "asd20d",
-            date: "2020-06-13T22:40:47.315Z"
+            date: "Sun Jun 14 2020"
         }]
     },
     i3BoGr: {
@@ -20,7 +20,7 @@ const urlDatabase = {
         userID: "aJ48lW",
         history: [{
             visitorID: "sws9f",
-            date: "2020-06-13T22:40:47.315Z"
+            date: "Sun Jun 14 2020"
         }]
     },
     kd29ds: {
