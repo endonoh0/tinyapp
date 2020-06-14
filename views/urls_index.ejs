@@ -22,9 +22,9 @@
             </thead>
 
             <tbody>
-                <% if(user) { %>
+                <% if (user) { %>
                     <!-- Display short and long url -->
-                    <% for(let url in urls) { %>
+                    <% for (let url in urls) { %>
                     <tr>
                         <td><a href="/u/<%= url %>"><%= url %></a></td>
                         <td><%= urls[url].longURL %></td>
@@ -40,11 +40,12 @@
                         </td>
                     <% } %>
                     </tr>
-                <% } else { %>
-                    <div id='error' class='invisible'><%= errorMessage %></div>
                 <% } %>
             </tbody>
         </table>
+        <% if (!user) { %>
+            <div id='error' class='invisible'><%= errorMessage %></div>
+        <% } %>
     </main>
 
     <footer><%- include('./partials/_footer') %></footer>
