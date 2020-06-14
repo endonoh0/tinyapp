@@ -20,12 +20,12 @@ describe('urlHistoryForUsers', function () {
         const expectedOutput = {
             b6UTxQ: {
                 history: [
-                    { visitorID: 'd92s9f', date: '2020-06-13T22:40:47.315Z' },
-                    { visitorID: "d92s9f", date: "2020-06-13T22:40:47.315Z" },
-                    { visitorID: "asd20d", date: "2020-06-13T22:40:47.315Z"}
+                    { visitorID: 'd92s9f', date: 'Sun Jun 14 2020' },
+                    { visitorID: "d92s9f", date: "Sun Jun 14 2020" },
+                    { visitorID: "asd20d", date: "Sun Jun 14 2020"}
                 ]},
             i3BoGr: {
-                history: [{ visitorID: "sws9f", date: '2020-06-13T22:40:47.315Z' }]
+                history: [{ visitorID: "sws9f", date: 'Sun Jun 14 2020' }]
             }}
 
         assert.deepEqual(result, expectedOutput);

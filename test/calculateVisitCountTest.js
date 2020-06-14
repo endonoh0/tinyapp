@@ -42,11 +42,11 @@ describe('calculateVisitCount', function () {
     it('should return 5 total and 4 unique visiters with a given url history', function () {
         const urlHistory = {
             history:
-                [{ visitorID: "d92s9f", date: "2020-06-13T22:40:47.315Z" },
-                { visitorID: "jdj29d", date: "2020-06-13T22:40:47.315Z" },
-                { visitorID: "asd20d", date: "2020-06-13T22:40:47.315Z" },
-                { visitorID: "2d02md", date: "2020-06-13T22:40:47.315Z" },
-                { visitorID: "asd20d", date: "2020-06-13T22:40:47.315Z" }]
+                [{ visitorID: "d92s9f", date: "Sun Jun 14 2020"},
+                { visitorID: "jdj29d", date: "Sun Jun 14 2020"},
+                { visitorID: "asd20d", date: "Sun Jun 14 2020"},
+                { visitorID: "2d02md", date: "Sun Jun 14 2020"},
+                { visitorID: "asd20d", date: "Sun Jun 14 2020"}]
         };
 
         const result = calculateVisitCount(urlHistory);
