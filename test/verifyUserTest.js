@@ -6,7 +6,7 @@ describe('verifyUser', function () {
     it('should return a user with valid email', function () {
         const user = verifyUser("user@example.com", users);
         const result = user.id;
-        const expectedOutput = "userRandomID";
+        const expectedOutput = "aJ48lW";
 
         assert.equal(result, expectedOutput);
     });
