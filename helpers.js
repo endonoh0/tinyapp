@@ -21,17 +21,18 @@ const generateRandomString = () => {
  *
  * @param  string id
  * @param  object urlDatabase
- * @return object
+ * @return object userURLDatabase
  */
 const urlsForUsers = (id, urlDatabase) => {
-    let urlDatabase= {};
+    let userURLDatabase= {};
     for (const key in urlDatabase) {
         if (urlDatabase[key].userID === id) {
-            userDatabase[key] = {longURL:urlDatabase[key].longURL};
+            userURLDatabase[key] = {longURL:urlDatabase[key].longURL};
         }
     };
-    return urlDatabase;
+    return userURLDatabase;
 };
+
 
 /**
  * Fetch the user's URL history.
