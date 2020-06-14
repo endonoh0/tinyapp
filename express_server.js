@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const PORT = 8080;
-
 const morgan = require('morgan');
 const methodOverride = require('method-override');
 const cookieSession = require('cookie-session');
