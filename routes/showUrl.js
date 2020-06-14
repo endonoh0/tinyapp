@@ -1,7 +1,7 @@
 const express = require('express');
 const app = module.exports = express();
 const { users, urlDatabase } = require('../database');
-const { urlHistoryForUsers } = require('../helpers');
+const { urlHistoryForUsers, calculateVisitCount } = require('../helpers');
 
 /**
  * Display the specified resource.
@@ -25,11 +25,13 @@ app.get('/urls/:shortURL', (req, res) => {
     }
     const urlHistory = urlHistoryForUsers(id, urlDatabase);
     const urlInfo = urlHistory[shortURL];
+    const visitCount = calculateVisitCount(urlInfo);
 
-        res.render('urls_show', {
-            shortURL: shortURL,
-            longURL: urlDatabase[shortURL],
-            user: users[id],
-            urlInfo
-        });
+    res.render('urls_show', {
+        shortURL: shortURL,
+        longURL: urlDatabase[shortURL],
+        user: users[id],
+        urlInfo,
+        visitCount
+    });
 });
