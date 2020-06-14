@@ -11,17 +11,17 @@ const urlDatabase = {
         longURL: "https://www.google.ca",
         userID: "aJ48lW",
         history: [{
-            visitorID: "03sdm3",
+            visitorID: "sws9f",
             date: "2020-06-13T22:40:47.315Z"
         }]
     }
 };
 
 const users = {
-    "userRandomID": {
-        id: "userRandomID",
+    "aJ48lW": {
+        id: "aJ48lW",
         email: "user@example.com",
-        password: "purple-monkey-dinosaur"
+        password: "pass"
     },
     "user2RandomID": {
         id: "user2RandomID",
