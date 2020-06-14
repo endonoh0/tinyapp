@@ -5,6 +5,14 @@ const urlDatabase = {
         history: [{
             visitorID: "d92s9f",
             date: "2020-06-13T22:40:47.315Z"
+        },
+        {
+            visitorID: "d92s9f",
+            date: "2020-06-13T22:40:47.315Z"
+        },
+        {
+            visitorID: "asd20d",
+            date: "2020-06-13T22:40:47.315Z"
         }]
     },
     i3BoGr: {
