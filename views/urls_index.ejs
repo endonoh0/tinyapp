@@ -22,25 +22,25 @@
             </thead>
 
             <tbody>
-                <% if (user) { %>
-                    <!-- Display short and long url -->
-                    <% for (let url in urls) { %>
-                    <tr>
-                        <td><a href="/u/<%= url %>"><%= url %></a></td>
-                        <td><%= urls[url].longURL %></td>
-                        <!-- Edit -->
-                        <td>
-                            <a href="/urls/<%= url %>" class="btn btn-outline-primary">Edit</a>
-                        </td>
-                        <!-- Delete -->
-                        <td>
-                            <form method="POST" action="/urls/<%= url %>/delete?_method=DELETE">
-                                <button class="btn btn-outline-danger">Delete</button>
-                            </form>
-                        </td>
-                    <% } %>
-                    </tr>
+            <% if (user) { %>
+                <!-- Display short and long url -->
+                <% for (let url in urls) { %>
+                <tr>
+                    <td><a href="/u/<%= url %>"><%= url %></a></td>
+                    <td><%= urls[url].longURL %></td>
+                    <!-- Edit -->
+                    <td>
+                        <a href="/urls/<%= url %>" class="btn btn-outline-primary">Edit</a>
+                    </td>
+                    <!-- Delete -->
+                    <td>
+                        <form method="POST" action="/urls/<%= url %>/delete?_method=DELETE">
+                            <button class="btn btn-outline-danger">Delete</button>
+                        </form>
+                    </td>
                 <% } %>
+                </tr>
+            <% } %>
             </tbody>
         </table>
         <% if (!user) { %>
