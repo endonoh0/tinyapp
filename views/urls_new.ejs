@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head><%- include('./partials/_head') %></head
+<head>
+    <%- include('./partials/_head') %>
+</head
 
 <body>
     <header class="container">
@@ -9,20 +11,19 @@
     </header>
 
     <main id="wrapper">
-        <h3 id="text-2xl">Create TinyURL</h3>
+        <h3 id="text-2xl" class="mt-3xl">Create TinyURL</h3>
 
         <div id="url" class="centercon">
-            <form id="card" class="form-inline mt-4" action="/urls" method="POST">
+            <form id="card" class="form-inline mt-4 rounded" action="/urls" method="POST">
                 <div class="form-group mb-2">
-                    <label class="mr-3" for="longURL"><strong>Enter a URL:</strong></label>
                     <input
-                        class="form-control"
                         type="text"
                         name="longURL"
+                        class="form-control rounded"
                         placeholder="http://"
                         required
                     >
-                    <button type="submit" class="btn btn-primary ml-3">Submit</button>
+                    <button type="submit" class="btn btn-primary ml-3 rounded">Submit</button>
                 </div>
             </form>
 

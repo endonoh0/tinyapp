@@ -8,40 +8,42 @@
 <title>TinyApp</title>
 
 <style>
-    .a {
-        text-decoration: none;
-        display: inline;
-        text-align: center;
-    }
     img {
         width: 60px;
         height: 60px;
     }
+
     table {
         margin-left: auto;
         margin-right: auto;
     }
+
     td {
         text-align: center;
     }
-    #myurl {
-        width: 85px;
+
+    #footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100px;
     }
-    #newurl {
-        width: 140px;
+
+    #text-2xl {
+        color: #222;
+        text-align: center;
+        margin-bottom: 3.5rem;
+        font-size: 2.5rem;
+        font-weight: 400;
+        margin-bottom: 1rem;
     }
-    #padding {
+
+    #block {
         padding-top: 8px;
-        padding-left: 270px;
-        width: max-content;
+        display: block;
     }
-    #wrapper {
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-        margin-left: auto;
-        margin-right: auto;
-        width: 100%;
-    }
+
     #card {
         box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
         padding-left: 4rem;
@@ -51,29 +53,52 @@
         border-radius: 0.25rem;
         background-color: aliceblue;
     }
-    #text-2xl {
-        color: #222;
-        text-align: center;
-        margin-bottom: 2.5rem;
-        font-size: 2.5rem;
-        font-weight: 400;
-        margin: 0;
-    }
+
     #url {
-    height:auto;
-    margin:0 auto;
-    width:50%;
-    margin:0 auto;
+        height: auto;
+        margin: 0 auto;
+        width: 50%;
+        margin: 0 auto;
     }
+
+    .content {
+        position: fixed;
+        top: 100px;
+        bottom: 100px;
+        left: 287px;
+        right: 287px;
+        overflow: auto;
+    }
+
+    .link-header {
+        padding: 1.5rem 1.5rem 0 0;
+    }
+
+    .link-center {
+        padding: 1.0rem 1.2rem;
+    }
+
+    .mt-3xl {
+        margin-top: 3.5rem;
+    }
+
+
+    .text-lg {
+        font-size: x-large;
+        font-weight: 400;
+    }
+
     .centercon {
-    display: flex;
-    align-content: center;
-    justify-content: center;
+        display: flex;
+        align-content: center;
+        justify-content: center;
     }
+
     .wraptitle {
-    padding-top: 5px;
-    margin-bottom: 18px;
+        padding-top: 5px;
+        margin-bottom: 18px;
     }
+
     .footer {
         position: fixed;
         left: 0;

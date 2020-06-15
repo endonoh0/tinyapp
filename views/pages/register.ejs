@@ -3,6 +3,7 @@
 
 <head>
     <%- include('../partials/_head') %>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 
 <body class="container">
@@ -10,34 +11,34 @@
         <%- include('../partials/_header') %>
     </header>
 
-    <main id="wrapper">
+    <main id="wrapper" class="rounded mt-1">
         <form id="card" method="POST" action="/register">
             <h1 id="text-2xl">Register</h1>
 
-            <div class="form-group">
+            <div class="form-group text-lg">
                 <label for="email">Email</label>
                 <input
                     id="email"
                     type="email"
                     name="email"
-                    class="form-control"
-                    placeholder="Enter email"
+                    class="form-control rounded mt-1"
+                    placeholder="Enter Email"
                     required
-                >
+                />
             </div>
 
-            <div class="form-group">
+            <div class="form-group text-lg">
                 <label for="password">Password</label>
                 <input
                     id="password"
                     type="password"
                     name="password"
-                    class="form-control"
+                    class="form-control rounded mt-1"
                     placeholder="Password"
                     required
                 >
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary mt-1">Submit</button>
         </form>
     </main>
 

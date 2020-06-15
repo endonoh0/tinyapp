@@ -6,18 +6,18 @@
 <body class="container">
     <header><%- include('./partials/_header') %></header>
 
-    <main>
+    <main id="card" class="content mt-3">
         <div class="wraptitle">
-            <h3 id="text-2xl">My URLs</h3>
+            <h3 id="text-2xl" class="mt-3xl mb-4">My URLs</h3>
         </div>
 
         <table class="table">
             <thead>
                 <tr>
-                    <td scope="col"><strong>Short URL</strong></td>
-                    <td scope="col"><strong>Long URL</strong></td>
-                    <td scope="col"><strong>Edit</strong></td>
-                    <td scope="col"><strong>Delete</strong></td>
+                    <td class="text-md" scope="col"><strong>Short URL</strong></td>
+                    <td class="text-md" scope="col"><strong>Long URL</strong></td>
+                    <td class="text-md" scope="col"><strong>Edit</strong></td>
+                    <td class="text-md" scope="col"><strong>Delete</strong></td>
                 </tr>
             </thead>
 
@@ -30,12 +30,12 @@
                     <td><%= urls[url].longURL %></td>
                     <!-- Edit -->
                     <td>
-                        <a href="/urls/<%= url %>" class="btn btn-outline-primary">Edit</a>
+                        <a href="/urls/<%= url %>" class="btn btn-outline-primary rounded">Edit</a>
                     </td>
                     <!-- Delete -->
                     <td>
                         <form method="POST" action="/urls/<%= url %>/delete?_method=DELETE">
-                            <button class="btn btn-outline-danger">Delete</button>
+                            <button class="btn btn-outline-danger rounded">Delete</button>
                         </form>
                     </td>
                 <% } %>
@@ -43,11 +43,11 @@
             <% } %>
             </tbody>
         </table>
-        <% if (!user) { %>
-            <div id='error' class='invisible'><%= errorMessage %></div>
-        <% } %>
+    <% if (!user) { %>
+        <div id='error' class='invisible'><%= errorMessage %></div>
+    <% } %>
     </main>
 
-    <footer><%- include('./partials/_footer') %></footer>
+    <footer id="footer"><%- include('./partials/_footer') %></footer>
 </body>
 </html>
