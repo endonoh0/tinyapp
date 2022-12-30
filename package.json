@@ -29,7 +29,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "ejs-lint": "^1.1.0",
-    "mocha": "^7.2.0",
+    "mocha": "^10.2.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.4"
   }
